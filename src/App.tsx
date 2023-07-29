@@ -1,9 +1,8 @@
 import { Auth0Provider } from "@auth0/auth0-react";
 import "./App.css";
-import { AppLayout } from "./components/layout/layout";
+import { Home } from "./pages/home";
 
 function App() {
-
   return (
     <Auth0Provider
       authorizationParams={{
@@ -13,7 +12,7 @@ function App() {
       clientId={import.meta.env.VITE_AUTH0_CLIENTID}
       cacheLocation="localstorage"
     >
-      <AppLayout />
+      <Home />
     </Auth0Provider>
   );
 }
