@@ -3,6 +3,7 @@ import "./App.css";
 import { AppLayout } from "./components/layout/layout";
 
 function App() {
+
   return (
     <Auth0Provider
       authorizationParams={{
