@@ -1,28 +1,31 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 import LoginButton from "../../../auth0/login-button";
+import { NavLink } from "react-router-dom";
 
 export const Header: React.FC = () => {
   const { user, logout } = useAuth0();
 
   return (
-    <div className="navbar text-primary-content bg-primary">
-      
+    <div className="navbar p-0 text-primary-content">
       <div className="flex-1">
-        <a className="btn btn-ghost text-white normal-case text-xl">
-          DAISY <span className="text-sm text-secondary font-black">TODOS</span>
-        </a>
+        <NavLink
+          className="font-black btn btn-ghost p-0 text-white normal-case text-xl"
+          to="/"
+        >
+          ✌Organizely
+        </NavLink>
       </div>
       {!user ? (
-        <button className="btn btn-ghost btn-square">
-          <LoginButton />
-        </button>
+        <LoginButton />
       ) : (
         <div className="flex-none">
-          <span className="me-2">{user.name}</span>
+          <span className="me-2 font-black text-secondary">
+            {user.given_name}
+          </span>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full">
+              <div className="w-8 border-2 border-secondary rounded-full">
                 <img src={user?.picture} />
               </div>
             </label>

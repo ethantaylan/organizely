@@ -6,6 +6,7 @@ const LoginButton = () => {
 
   return (
     <button
+      className="btn btn-ghost btn-square"
       onClick={() => {
         loginWithRedirect();
       }}

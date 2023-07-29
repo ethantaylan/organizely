@@ -1,14 +1,23 @@
 import { AxiosRequestConfig } from "axios";
 import { SUPABASE_ANONKEY, SUPABASE_URL } from "../config";
-import { Todos } from "../models";
 
-export const postTodo = (data: Todos): AxiosRequestConfig => ({
+export const postTodo = (
+  todoName: string,
+  todoDescription: string,
+  todoIsImportant: boolean,
+  author: string
+): AxiosRequestConfig => ({
   url: `${SUPABASE_URL}/rest/v1/todos`,
   method: "POST",
   headers: {
     apikey: SUPABASE_ANONKEY,
   },
-  data: data,
+  data: {
+    todo: todoName,
+    description: todoDescription,
+    is_important: todoIsImportant,
+    author: author,
+  },
 });
 
 export const getTodosByEmail = (email: string): AxiosRequestConfig => ({
