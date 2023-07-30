@@ -113,7 +113,10 @@ export const Tasks: React.FC = () => {
   return (
     <AppLayout>
       {todoAlert && (
-        <Alert title={"Todo added with success"} type={"success"} />
+        <Alert
+          title={"Todo added with success"}
+          className="alert alert-success"
+        />
       )}
 
       <NewTodoModal
