@@ -1,48 +1,25 @@
 import React from "react";
 import { Switch } from "./switch";
-import { useAxios } from "../hooks/use-axios";
-import { getTodosByEmail, postTodo } from "../services";
-import { useAuth0 } from "@auth0/auth0-react";
 
-export const NewTodoModal: React.FC = () => {
-  const [isImportant, setIsImportant] = React.useState<boolean>(false);
+export interface NewTodoModalProps {
+  onConfirm: () => void;
+  onToDoNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onTodoDescriptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onTodoIsImportantChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  switchValue: boolean;
+  switchOnClick: (value: boolean) => void;
+  onClose: () => void;
+}
 
-  const [todoName, setTodoName] = React.useState<string>("");
-  const [todoDescription, setTodoDescription] = React.useState<string>("");
-  const [todoIsImportant, setTodoIsImportant] = React.useState<boolean>(false);
-
-  const handleTodoNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTodoName(event.target.value);
-  };
-
-  const handleTodoDescriptionChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setTodoDescription(event.target.value);
-  };
-
-  const handleTodoIsImportantChange = () => {
-    setTodoIsImportant((prevIsImportant) => !prevIsImportant);
-  };
-
-  const { user } = useAuth0();
-
-  const postTodoFetch = useAxios(
-    postTodo(todoName, todoDescription, todoIsImportant, user?.email || ""),
-    false
-  );
-
-  const getTodosFetch = useAxios(getTodosByEmail(user?.email || ""), false);
-
-  React.useEffect(() => {
-    postTodoFetch.response && getTodosFetch.executeFetch();
-  }, [postTodoFetch.response, getTodosFetch.executeFetch]);
-  
-
-  const handleAddTodo = () => {
-    postTodoFetch.executeFetch();
-  };
-
+export const NewTodoModal: React.FC<NewTodoModalProps> = ({
+  onConfirm,
+  onToDoNameChange,
+  onTodoDescriptionChange,
+  onTodoIsImportantChange,
+  switchValue,
+  switchOnClick,
+  onClose,
+}) => {
   return (
     <React.Fragment>
       <dialog id="newTodoModal" className="modal">
@@ -60,7 +37,7 @@ export const NewTodoModal: React.FC = () => {
               Nom
             </label>
             <input
-              onChange={handleTodoNameChange}
+              onChange={onToDoNameChange}
               type="text"
               placeholder=""
               className="input mb-5 w-full text-sm bg-gray-800"
@@ -70,30 +47,34 @@ export const NewTodoModal: React.FC = () => {
               Description
             </label>
             <input
-              onChange={handleTodoDescriptionChange}
+              onChange={onTodoDescriptionChange}
               type="text"
               placeholder=""
               className="input w-full bg-gray-800"
             />
             <div className="flex w-full mt-5 items-center">
               <Switch
-                value={isImportant}
-                onChange={handleTodoIsImportantChange}
-                onClick={() => setIsImportant(!isImportant)}
+                value={switchValue}
+                onChange={onTodoIsImportantChange}
+                onClick={() => switchOnClick(!switchValue)}
               />
-              <span className="label-text text-secondary font-bold">
+              <span
+                className={`label-text ${
+                  switchValue ? "text-secondary" : "text-gray-500"
+                } font-bold`}
+              >
                 Important
               </span>
             </div>
 
             <div className="flex w-full justify-end">
-              <button className="btn me-2 mt-10 text-white bg-gray-600 ">
+              <button
+                onClick={onClose}
+                className="btn me-2 mt-10 text-white bg-gray-600 "
+              >
                 Retour
               </button>
-              <button
-                onClick={handleAddTodo}
-                className="btn mt-10 btn-secondary"
-              >
+              <button onClick={onConfirm} className="btn mt-10 btn-secondary">
                 Ajouter
               </button>
             </div>

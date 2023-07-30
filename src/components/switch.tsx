@@ -2,7 +2,7 @@ import React from "react";
 
 export interface SwitchProps {
   value: boolean;
-  onChange: () => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onClick: () => void;
 }
 
