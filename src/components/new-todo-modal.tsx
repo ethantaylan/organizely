@@ -29,7 +29,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
         >
           <div className="flex mb-5 items-center">
             <span className="me-1">📝</span>
-            <h1 className="font-bold text-white">Nouvelle todo</h1>
+            <h1 className="font-bold text-white">New todo</h1>
           </div>
 
           <div className="flex  flex-col">

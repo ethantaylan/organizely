@@ -20,7 +20,7 @@ export const Header: React.FC = () => {
         <LoginButton />
       ) : (
         <div className="flex-none">
-          <span className="me-2 font-black text-secondary">
+          <span className="me-2 font-bold text-secondary">
             {user.given_name}
           </span>
           <div className="dropdown dropdown-end">

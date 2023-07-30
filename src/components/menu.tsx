@@ -5,6 +5,7 @@ export interface MenuItemsProps {
   name: string;
   isDeleteBtn: boolean;
   isDoneBtn: boolean;
+  onClick: () => void;
 }
 
 export interface MenuProps {
@@ -20,6 +21,7 @@ export const Menu: React.FC<MenuProps> = ({ items }) => {
       <ul className="p-1 shadow menu dropdown-content z-[1] bg-gray-800 rounded w-52">
         {items.map((item, index) => (
           <li
+            onClick={item.onClick}
             key={index}
             className={`${item.isDeleteBtn ? "text-red-600" : ""} ${
               item.isDoneBtn ? "text-green-600" : ""

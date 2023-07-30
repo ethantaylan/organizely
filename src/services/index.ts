@@ -42,3 +42,15 @@ export const getTodos = (): AxiosRequestConfig => ({
     apikey: SUPABASE_ANONKEY,
   },
 });
+
+export const deleteTodoById = (id: number): AxiosRequestConfig => ({
+  url: `${SUPABASE_URL}/rest/v1/todos`,
+  method: "DELETE",
+  params: {
+    select: "*",
+    id: `eq.${id}`,
+  },
+  headers: {
+    apikey: SUPABASE_ANONKEY,
+  },
+});

@@ -5,17 +5,20 @@ import { NewTodoModal } from "../components/new-todo-modal";
 import { TodosList } from "../components/todos/todos-list";
 import { useAxios } from "../hooks/use-axios";
 import { Todos } from "../models";
-import { getTodosByEmail, postTodo } from "../services";
+import { deleteTodoById, getTodosByEmail, postTodo } from "../services";
+import { Alert } from "../components/alert";
+import Swal from "sweetalert2";
 
 export const Tasks: React.FC = () => {
   const { user } = useAuth0();
 
   const [todos, setTodos] = React.useState<Todos[]>([]);
-
   const [isImportant, setIsImportant] = React.useState<boolean>(false);
   const [todoName, setTodoName] = React.useState<string>("");
   const [todoDescription, setTodoDescription] = React.useState<string>("");
   const [todoIsImportant, setTodoIsImportant] = React.useState<boolean>(false);
+  const [todoId, setTodoId] = React.useState<number>();
+  const [todoAlert, setTodoAlert] = React.useState<boolean>(false);
 
   const postTodoFetch = useAxios(
     postTodo(todoName, todoDescription, todoIsImportant, user?.email || ""),
@@ -26,23 +29,63 @@ export const Tasks: React.FC = () => {
     getTodosByEmail(user?.email || ""),
     false
   );
+  const deleteTodoByIdFetch = useAxios(deleteTodoById(todoId || 0), false);
+
+  React.useEffect(() => {
+    if (todoId) {
+      Swal.fire({
+        title: `You are removing todo <br /> <span class="font-bold">${todoName}</span>`,
+        showCancelButton: true,
+        confirmButtonText: "Remove",
+        confirmButtonColor: "green",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire("Todo removed with success", "", "success");
+          deleteTodoByIdFetch
+            .executeFetch()
+            .then(() => getTodosByEmailFetch.executeFetch());
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
+    }
+  }, [todoId]);
 
   React.useEffect(() => {
     if (user) {
       getTodosByEmailFetch.executeFetch();
-      console.log("tasks");
     }
   }, [user]);
 
   React.useEffect(() => {
-    setTodos(getTodosByEmailFetch.response || []);
+    getTodosByEmailFetch.response && setTodos(getTodosByEmailFetch.response);
   }, [getTodosByEmailFetch.response]);
 
+  React.useEffect(() => {
+    if (todoAlert) {
+      setTimeout(() => {
+        setTodoAlert(false);
+      }, 2000);
+    }
+  }, [todoAlert]);
+
   const handleAddTodo = () => {
-    postTodoFetch.executeFetch().then(() => {
-      getTodosByEmailFetch.executeFetch();
-    });
-    resetTodoState();
+    const isTodoNameValid = (todoName: string) => {
+      return todoNameRegex.test(todoName);
+    };
+
+    const todoNameRegex = /^(\S+)/;
+
+    if (!isTodoNameValid(todoName)) {
+      return Swal.fire("Todo title can't be null", "", "error");
+    }
+    {
+      postTodoFetch.executeFetch().then(() => {
+        getTodosByEmailFetch.executeFetch();
+      });
+      resetTodoState();
+      setTodoAlert(true);
+    }
   };
 
   const handleModalClose = () => {
@@ -69,6 +112,10 @@ export const Tasks: React.FC = () => {
 
   return (
     <AppLayout>
+      {todoAlert && (
+        <Alert title={"Todo added with success"} type={"success"} />
+      )}
+
       <NewTodoModal
         onConfirm={handleAddTodo}
         onToDoNameChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -102,6 +149,10 @@ export const Tasks: React.FC = () => {
         {user
           ? todos.map((todo, index) => (
               <TodosList
+                onClick={() => {
+                  setTodoId(todo.id || 0);
+                  setTodoName(todo.todo);
+                }}
                 key={index}
                 name={todo.todo}
                 isImportant={todo.is_important}

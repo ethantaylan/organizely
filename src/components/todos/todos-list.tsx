@@ -5,28 +5,33 @@ export interface TodosProps {
   name: string;
   isImportant: boolean;
   description: string;
+  onClick: () => void;
 }
 
 export const TodosList: React.FC<TodosProps> = ({
   name,
   isImportant,
   description,
+  onClick,
 }) => {
   const menuItems: MenuItemsProps[] = [
     {
-      name: "Tâche accompli",
+      name: "Tâche accomplie",
       isDeleteBtn: false,
-      isDoneBtn: true,
+      isDoneBtn: false,
+      onClick: onClick,
     },
     {
       name: "Mettre à jour",
       isDeleteBtn: false,
       isDoneBtn: false,
+      onClick: onClick,
     },
     {
       name: "Supprimer",
       isDeleteBtn: true,
       isDoneBtn: false,
+      onClick: onClick,
     },
   ];
 
