@@ -7,13 +7,14 @@ export const Header: React.FC = () => {
   const { user, logout } = useAuth0();
 
   return (
-    <div className="navbar p-0 text-primary-content">
-      <div className="flex-1">
+    <div className="navbar flex justify-between p-0 text-primary-content">
+      <div className="flex p-0 btn btn-ghost">
         <NavLink
-          className="font-black btn btn-ghost p-0 text-white normal-case text-xl"
+          className="relative font-black p-0 text-white normal-case text-xl"
           to="/"
         >
           ✌Organizely
+          <span style={{fontSize: 10}} className="absolute font-bold badge -right-12">BETA</span>
         </NavLink>
       </div>
       {!user ? (

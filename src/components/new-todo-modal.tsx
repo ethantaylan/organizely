@@ -6,9 +6,14 @@ export interface NewTodoModalProps {
   onToDoNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onTodoDescriptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onTodoIsImportantChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onTodoShareWithChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   switchValue: boolean;
   switchOnClick: (value: boolean) => void;
   onClose: () => void;
+  addShared: () => void;
+  sharedValue: string;
+  sharedEmails: string[];
+  showAlert: boolean;
 }
 
 export const NewTodoModal: React.FC<NewTodoModalProps> = ({
@@ -16,9 +21,14 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
   onToDoNameChange,
   onTodoDescriptionChange,
   onTodoIsImportantChange,
+  onTodoShareWithChange,
   switchValue,
   switchOnClick,
   onClose,
+  addShared,
+  sharedValue,
+  sharedEmails,
+  showAlert,
 }) => {
   return (
     <React.Fragment>
@@ -32,9 +42,9 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
             <h1 className="font-bold text-white">New todo</h1>
           </div>
 
-          <div className="flex  flex-col">
+          <div className="flex flex-col">
             <label htmlFor="todo" className="me-2 text-sm">
-              Nom
+              Todo
             </label>
             <input
               onChange={onToDoNameChange}
@@ -50,8 +60,33 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
               onChange={onTodoDescriptionChange}
               type="text"
               placeholder=""
-              className="input w-full bg-gray-800"
+              className="input mb-5 w-full bg-gray-800"
             />
+
+            <label htmlFor="todo" className="me-2 text-sm">
+              Share with
+            </label>
+            <div className="flex">
+              <input
+                value={sharedValue}
+                onChange={onTodoShareWithChange}
+                type="text"
+                placeholder=""
+                className="input w-full text-sm bg-gray-800"
+              />
+              <span onClick={addShared} className="btn ms-4 btn-primary">
+                Add
+              </span>
+            </div>
+
+            {showAlert && (
+              <p className="ms-1 mb-3 rounded text-red-600">Wrong adresse email format</p>
+            )}
+
+            {sharedEmails.map((shared) => (
+              <p className="ms-1 text-secondary">{shared}</p>
+            ))}
+
             <div className="flex w-full mt-5 items-center">
               <Switch
                 value={switchValue}

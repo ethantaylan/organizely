@@ -18,7 +18,7 @@ export const Home: React.FC = () => {
       <div className="flex w-full left-0 p-10 fixed bottom-0">
         {alert && (
           <Alert
-            title={"Organizely is only available in mobile version"}
+            title="Organizely is only available in mobile version"
             className="alert"
           />
         )}

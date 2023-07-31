@@ -6,6 +6,8 @@ export interface TodosProps {
   isImportant: boolean;
   description: string;
   onClick: () => void;
+  isShared: boolean;
+  sharedPeoples?: string[];
 }
 
 export const TodosList: React.FC<TodosProps> = ({
@@ -13,6 +15,8 @@ export const TodosList: React.FC<TodosProps> = ({
   isImportant,
   description,
   onClick,
+  isShared,
+  sharedPeoples,
 }) => {
   const menuItems: MenuItemsProps[] = [
     {
@@ -41,12 +45,23 @@ export const TodosList: React.FC<TodosProps> = ({
         <div className="flex justify-between items-center w-full">
           <div>
             <div className="flex items-center">
-              <h2 className="font-bold text-white">{name}</h2>
+              <h2 className="font-semibold text-slate-200">{name}</h2>
               {isImportant && (
-                <h2 className="badge bg-slate-700 p-3 ms-4">Important !</h2>
+                <h2 className="badge bg-blue-600 text-white p-3 ms-4">
+                  Important !
+                </h2>
               )}
             </div>
-            <h3 className="text-slate-300 text-sm mt-2">{description}</h3>
+            <h3 className="text-slate-400 text-sm mt-2">{description}</h3>
+            {isShared && (
+              <span
+                style={{ fontSize: 11 }}
+                className="mt-4 flex font-semibold text-sm text-yellow-500"
+              >
+                Todo author:
+                <br /> {sharedPeoples}
+              </span>
+            )}
           </div>
           <Menu items={menuItems} />
         </div>

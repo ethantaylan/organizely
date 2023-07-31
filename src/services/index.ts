@@ -5,7 +5,8 @@ export const postTodo = (
   todoName: string,
   todoDescription: string,
   todoIsImportant: boolean,
-  author: string
+  author: string,
+  shareWith: string[]
 ): AxiosRequestConfig => ({
   url: `${SUPABASE_URL}/rest/v1/todos`,
   method: "POST",
@@ -17,6 +18,7 @@ export const postTodo = (
     description: todoDescription,
     is_important: todoIsImportant,
     author: author,
+    authorized_users: shareWith,
   },
 });
 
@@ -25,6 +27,20 @@ export const getTodosByEmail = (email: string): AxiosRequestConfig => ({
   method: "GET",
   params: {
     author: `eq.${email}`,
+    select: "*",
+  },
+  headers: {
+    apikey: SUPABASE_ANONKEY,
+  },
+});
+
+export const getSharedTodos = (email: string): AxiosRequestConfig => ({
+  url: `${SUPABASE_URL}/rest/v1/todos`,
+  method: "GET",
+  params: {
+    // authorized_users: `cs.${email}`,
+    authorized_users: `cs.{${email}}`,
+
     select: "*",
   },
   headers: {
