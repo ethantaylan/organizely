@@ -15,10 +15,10 @@ function App() {
       cacheLocation="localstorage"
     >
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/tasks" element={<Tasks />} />
-        </Routes>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/tasks" element={<Tasks />} />
+          </Routes>
       </BrowserRouter>
     </Auth0Provider>
   );

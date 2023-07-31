@@ -13,6 +13,7 @@ export const Header: React.FC = () => {
           className="relative font-black p-0 text-white normal-case text-xl"
           to="/"
         >
+          
           ✌Organizely
           <span style={{fontSize: 10}} className="absolute font-bold badge -right-12">BETA</span>
         </NavLink>
