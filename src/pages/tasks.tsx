@@ -1,19 +1,20 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
+import Swal from "sweetalert2";
+import { Alert } from "../components/alert";
 import { AppLayout } from "../components/layout/layout";
 import { NewTodoModal } from "../components/new-todo-modal";
 import { TodosList } from "../components/todos/todos-list";
+import { useGlobalDispatch } from "../context/context";
 import { useAxios } from "../hooks/use-axios";
 import { Todos } from "../models";
+import { getFavoritesByEmail } from "../services/favorites";
 import {
   deleteTodoById,
   getSharedTodos,
   getTodosByEmail,
   postTodo,
 } from "../services/todos";
-import { Alert } from "../components/alert";
-import Swal from "sweetalert2";
-import { getFavoritesByEmail } from "../services/favorites";
 
 export const Tasks: React.FC = () => {
   const { user } = useAuth0();
@@ -147,10 +148,17 @@ export const Tasks: React.FC = () => {
     resetTodoState();
   };
 
+  const dispatch = useGlobalDispatch();
+
   const resetTodoState = () => {
     setTodoName("");
     setTodoDescription("");
     setTodoIsImportant(false);
+
+    dispatch({
+      type: "REMOVE_FAVORITE",
+      payload: "",
+    });
   };
 
   const handleTodoNameChange = (todoName: string) => {

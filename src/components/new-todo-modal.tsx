@@ -1,6 +1,7 @@
-import React from "react";
-import { Switch } from "./switch";
 import { StarIcon } from "@heroicons/react/24/solid";
+import React, { useRef } from "react";
+import { useGlobalContext, useGlobalDispatch } from "../context/context";
+import { Switch } from "./switch";
 
 export interface NewTodoModalProps {
   onConfirm: () => void;
@@ -35,8 +36,24 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
   showAlert,
   onShowFavs,
   favorites,
-  onClickAddValue,
 }) => {
+  const dispatch = useGlobalDispatch();
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const favoriteValueRef = useRef<any>(null);
+
+  const handleAddFavoriteValue = () => {
+    dispatch({
+      type: "ADD_FAVORITE",
+      payload: favoriteValueRef.current.innerHTML,
+    });
+  };
+
+  console.log(favoriteValueRef);
+  
+
+  const { favoriteValue } = useGlobalContext();
+
   return (
     <React.Fragment>
       <dialog id="newTodoModal" className="modal">
@@ -80,7 +97,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
               <div className="items-center flex w-full">
                 <input
                   autoComplete="on"
-                  value={sharedValue}
+                  value={favoriteValue ? favoriteValue : sharedValue}
                   onChange={onTodoShareWithChange}
                   type="email"
                   placeholder=""
@@ -98,7 +115,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
                 className=" cursor-pointer flex badge mb-1 bg-opacity-25 badge-primary"
               >
                 <span onClick={onShowFavs} className="me-2 text-slate-300">
-                  Click here to add favorite users
+                  Show favorite users
                 </span>
                 <StarIcon className="w-4 text-warning" />
               </label>
@@ -108,7 +125,8 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
               >
                 {favorites.map((fav) => (
                   <li
-                    onClick={onClickAddValue}
+                    onClick={handleAddFavoriteValue}
+                    ref={favoriteValueRef}
                     className="text-white flex items-center justify-center hover:text-secondary h-8"
                   >
                     {fav}

@@ -23,7 +23,7 @@ export const Menu: React.FC<MenuProps> = ({ items }) => {
       </label>
       <ul
         tabIndex={0}
-        className="p-1 shadow menu dropdown-content z-[1] bg-gray-800 rounded w-52"
+        className="p-1 shadow menu dropdown-content z-[1] bg-gray-800 rounded-xl w-52"
       >
         {items.map((item, index) => (
           <li
