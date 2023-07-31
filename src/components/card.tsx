@@ -25,7 +25,7 @@ export const Card: React.FC<CardProps> = ({
   const date = today.toLocaleString(undefined, options);
 
   return (
-    <div className="card mt-5 w-96 border-opacity-40 bg-secondary bg-opacity-20 border-secondary border text-primary-content">
+    <div className="card mt-5 w-auto md:w-96 border-opacity-40 bg-secondary bg-opacity-20 border-secondary border text-primary-content">
       <div className="card-body">
         <h2 className="card-title font-bold text-secondary">{title}</h2>
         <p className="text-white">{content}</p>

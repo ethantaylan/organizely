@@ -194,7 +194,7 @@ export const Tasks: React.FC = () => {
       <div className="mt-5">
         <div className="flex mt-10 items-end justify-between">
           <p>
-            <span className="text-secondary font-bold">
+            <span className="text-secondary font-bold ms-1">
               {user?.given_name || user?.nickname}
             </span>
             {todos.length === 0 ? (
@@ -209,7 +209,7 @@ export const Tasks: React.FC = () => {
           <p className="rounded">
             <button
               onClick={() => window.newTodoModal.showModal()}
-              className=" btn btn-secondary  px-3 text-md rounded"
+              className=" btn btn-secondary btn-xs  px-3 text-md rounded"
             >
               Create new todo
             </button>

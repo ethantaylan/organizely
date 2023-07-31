@@ -22,7 +22,7 @@ export const Home: React.FC = () => {
           className="alert my-2 text-white w-auto bg-secondary bg-opacity-50 border-secondary border-opacity-50 right-9 top-20"
         />
       )}
-      
+
       <Hero />
 
       <div className="mt-10">
