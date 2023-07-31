@@ -68,9 +68,10 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
             </label>
             <div className="flex">
               <input
+                autoComplete="on"
                 value={sharedValue}
                 onChange={onTodoShareWithChange}
-                type="text"
+                type="email"
                 placeholder=""
                 className="input w-full text-sm bg-gray-800"
               />
