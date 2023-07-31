@@ -194,7 +194,7 @@ export const Tasks: React.FC = () => {
       <div className="mt-5">
         <div className="flex mt-10 items-end justify-between">
           <p>
-            <span className="text-secondary font-bold ms-1">
+            <span className="text-secondary font-bold me-1">
               {user?.given_name || user?.nickname}
             </span>
             {todos.length === 0 ? (
@@ -234,7 +234,7 @@ export const Tasks: React.FC = () => {
           {sharedTodos.length === 0 && (
             <div className="my-20">
               <p className="text-xl font-bold">Shared todos with me</p>
-              <p>You don't have any todos</p>
+              <p>No shared todos</p>
             </div>
           )}
         </p>
