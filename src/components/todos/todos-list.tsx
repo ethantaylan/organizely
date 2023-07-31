@@ -43,7 +43,7 @@ export const TodosList: React.FC<TodosProps> = ({
     <React.Fragment>
       <div className="bg-gray-900 my-4 p-4 rounded text-primary-content">
         <div className="flex justify-between items-center w-full">
-          <div className="flex items-center">
+          <div className="flex w-full items-center">
             <h2 className="font-semibold text-slate-200">{name}</h2>
             {isImportant && (
               <h2 className="badge whitespace-nowrap bg-blue-600 text-white p-3 ms-4">
@@ -51,6 +51,7 @@ export const TodosList: React.FC<TodosProps> = ({
               </h2>
             )}
           </div>
+            <Menu items={menuItems} />
           <h3 className="text-slate-400 text-sm mt-2">{description}</h3>
           {isShared && (
             <span
@@ -62,7 +63,6 @@ export const TodosList: React.FC<TodosProps> = ({
             </span>
           )}
         </div>
-        <Menu items={menuItems} />
       </div>
     </React.Fragment>
   );

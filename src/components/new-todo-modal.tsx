@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch } from "./switch";
+import { StarIcon } from "@heroicons/react/24/solid";
 
 export interface NewTodoModalProps {
   onConfirm: () => void;
@@ -14,6 +15,9 @@ export interface NewTodoModalProps {
   sharedValue: string;
   sharedEmails: string[];
   showAlert: boolean;
+  onShowFavs: () => void;
+  favorites: string[];
+  onClickAddValue: () => void;
 }
 
 export const NewTodoModal: React.FC<NewTodoModalProps> = ({
@@ -29,6 +33,9 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
   sharedValue,
   sharedEmails,
   showAlert,
+  onShowFavs,
+  favorites,
+  onClickAddValue,
 }) => {
   return (
     <React.Fragment>
@@ -63,25 +70,57 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
               className="input mb-5 w-full bg-gray-800"
             />
 
-            <label htmlFor="todo" className="me-2 text-sm">
-              Share with
-            </label>
-            <div className="flex">
-              <input
-                autoComplete="on"
-                value={sharedValue}
-                onChange={onTodoShareWithChange}
-                type="email"
-                placeholder=""
-                className="input w-full text-sm bg-gray-800"
-              />
+            <div className="flex w-full">
+              <label htmlFor="todo" className="me-2">
+                Share with
+              </label>
+            </div>
+
+            <div className="flex w-full">
+              <div className="items-center flex w-full">
+                <input
+                  autoComplete="on"
+                  value={sharedValue}
+                  onChange={onTodoShareWithChange}
+                  type="email"
+                  placeholder=""
+                  className="input w-full text-sm bg-gray-800"
+                />
+              </div>
               <span onClick={addShared} className="btn ms-4 btn-primary">
-                Add
+                Share
               </span>
             </div>
 
+            <div className="dropdown whitespace-nowrap dropdown-bottom mt-5">
+              <label
+                tabIndex={0}
+                className=" cursor-pointer flex badge mb-1 bg-opacity-25 badge-primary"
+              >
+                <span onClick={onShowFavs} className="me-2 text-slate-300">
+                  Click here to add favorite users
+                </span>
+                <StarIcon className="w-4 text-warning" />
+              </label>
+              <ul
+                tabIndex={0}
+                className="p-1 shadow menu dropdown-content z-[1] cursor-pointer bg-gray-800 rounded-xl w-52"
+              >
+                {favorites.map((fav) => (
+                  <li
+                    onClick={onClickAddValue}
+                    className="text-white flex items-center justify-center hover:text-secondary h-8"
+                  >
+                    {fav}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             {showAlert && (
-              <p className="ms-1 mb-3 rounded text-red-600">Wrong adresse email format</p>
+              <p className="ms-1 mb-3 rounded text-red-600">
+                Wrong adresse email format
+              </p>
             )}
 
             {sharedEmails.map((shared) => (
@@ -108,10 +147,10 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
                 onClick={onClose}
                 className="btn me-2 mt-10 text-white bg-gray-600 "
               >
-                Retour
+                Cancel
               </button>
               <button onClick={onConfirm} className="btn mt-10 btn-secondary">
-                Ajouter
+                Add todo
               </button>
             </div>
           </div>

@@ -10,9 +10,10 @@ import {
   getSharedTodos,
   getTodosByEmail,
   postTodo,
-} from "../services";
+} from "../services/todos";
 import { Alert } from "../components/alert";
 import Swal from "sweetalert2";
+import { getFavoritesByEmail } from "../services/favorites";
 
 export const Tasks: React.FC = () => {
   const { user } = useAuth0();
@@ -27,9 +28,9 @@ export const Tasks: React.FC = () => {
   const [sharedWithEmail, setSharedWithEmail] = React.useState<string>("");
   const [showEmailWrongAlert, setEmailWrongAlert] =
     React.useState<boolean>(false);
-
   const [todoId, setTodoId] = React.useState<number>();
   const [todoAlert, setTodoAlert] = React.useState<boolean>(false);
+  const [favorites, setFavorites] = React.useState<string[]>([""]);
 
   const postTodoFetch = useAxios(
     postTodo(
@@ -46,6 +47,7 @@ export const Tasks: React.FC = () => {
     getTodosByEmail(user?.email || ""),
     false
   );
+
   const deleteTodoByIdFetch = useAxios<Todos>(
     deleteTodoById(todoId || 0),
     false
@@ -55,6 +57,28 @@ export const Tasks: React.FC = () => {
     getSharedTodos(user?.email || ""),
     false
   );
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const getFavoritesByEmailFetch = useAxios<any>(
+    getFavoritesByEmail(user?.email || ""),
+    false
+  );
+
+  React.useEffect(() => {
+    if (user) {
+      getFavoritesByEmailFetch.executeFetch();
+    }
+  }, [user]);
+
+  React.useEffect(() => {
+    if (getFavoritesByEmailFetch.response) {
+      setFavorites(
+        getFavoritesByEmailFetch?.response?.[0]?.favorites?.map(
+          (fav: string[]) => fav
+        )
+      );
+    }
+  }, [getFavoritesByEmailFetch.response]);
 
   React.useEffect(() => {
     if (user) {
@@ -190,6 +214,13 @@ export const Tasks: React.FC = () => {
         }}
         sharedEmails={todoShareWith}
         showAlert={showEmailWrongAlert}
+        onShowFavs={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        favorites={favorites}
+        onClickAddValue={function (): void {
+          throw new Error("Function not implemented.");
+        }}
       />
       <div className="mt-5">
         <div className="flex mt-10 items-end justify-between">
@@ -200,7 +231,7 @@ export const Tasks: React.FC = () => {
             {todos.length === 0 ? (
               <>
                 <p className="text-xl font-bold">Your todos</p>
-                <p>You don't have any todos</p>
+                <p className="text-slate-500">You don't have any todos</p>
               </>
             ) : (
               "My todos"
@@ -234,7 +265,7 @@ export const Tasks: React.FC = () => {
           {sharedTodos.length === 0 && (
             <div className="my-20">
               <p className="text-xl font-bold">Shared todos with me</p>
-              <p>No shared todos</p>
+              <p className="text-slate-500">No shared todos :(</p>
             </div>
           )}
         </p>

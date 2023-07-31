@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from "axios";
-import { SUPABASE_ANONKEY, SUPABASE_URL } from "../config";
+import { SUPABASE_ANONKEY, SUPABASE_URL } from "../../config";
 
 export const postTodo = (
   todoName: string,
@@ -38,20 +38,8 @@ export const getSharedTodos = (email: string): AxiosRequestConfig => ({
   url: `${SUPABASE_URL}/rest/v1/todos`,
   method: "GET",
   params: {
-    // authorized_users: `cs.${email}`,
     authorized_users: `cs.{${email}}`,
 
-    select: "*",
-  },
-  headers: {
-    apikey: SUPABASE_ANONKEY,
-  },
-});
-
-export const getTodos = (): AxiosRequestConfig => ({
-  url: `${SUPABASE_URL}/rest/v1/todos`,
-  method: "GET",
-  params: {
     select: "*",
   },
   headers: {

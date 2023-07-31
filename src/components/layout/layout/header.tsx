@@ -1,10 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 import LoginButton from "../../../auth0/login-button";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export const Header: React.FC = () => {
   const { user, logout } = useAuth0();
+
+  const navigate = useNavigate();
 
   return (
     <div className="navbar flex justify-between p-0 text-primary-content">
@@ -13,9 +15,13 @@ export const Header: React.FC = () => {
           className="relative font-black p-0 text-white normal-case text-xl"
           to="/"
         >
-          
           ✌Organizely
-          <span style={{fontSize: 10}} className="absolute font-bold badge -right-12">BETA</span>
+          <span
+            style={{ fontSize: 10 }}
+            className="absolute font-bold badge -right-12"
+          >
+            BETA
+          </span>
         </NavLink>
       </div>
       {!user ? (
@@ -36,13 +42,9 @@ export const Header: React.FC = () => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li>
-                <a>Settings</a>
+                <span onClick={() => navigate("/tasks")} className="justify-between">
+                  My todos
+                </span>
               </li>
               <li onClick={() => logout()}>
                 <a>Logout</a>
