@@ -78,7 +78,7 @@ export const Tasks: React.FC = () => {
         confirmButtonText: "Remove",
         confirmButtonColor: "green",
       }).then((result) => {
-        if (result.isConfirmed) {
+        if (user && result.isConfirmed) {
           Swal.fire("Todo removed with success", "", "success");
           deleteTodoByIdFetch
             .executeFetch()
@@ -106,7 +106,7 @@ export const Tasks: React.FC = () => {
 
     const todoNameRegex = /^(\S+)/;
 
-    if (!isTodoNameValid(todoName)) {
+    if (user && !isTodoNameValid(todoName)) {
       return Swal.fire("Todo title can't be null", "", "error");
     }
     {
@@ -194,37 +194,50 @@ export const Tasks: React.FC = () => {
       <div className="mt-5">
         <div className="flex mt-10 items-end justify-between">
           <p>
-            <span className="me-2 text-secondary font-bold">
+            <span className="text-secondary font-bold">
               {user?.given_name || user?.nickname}
             </span>
-            Here is your todos
+            {todos.length === 0 ? (
+              <>
+                <p className="text-xl font-bold">Your todos</p>
+                <p>You don't have any todos</p>
+              </>
+            ) : (
+              "My todos"
+            )}
           </p>
           <p className="rounded">
             <button
               onClick={() => window.newTodoModal.showModal()}
-              className="bg-gray-900 hover:bg-gray-800 px-3 text-xl rounded"
+              className=" btn btn-secondary  px-3 text-md rounded"
             >
-              +
+              Create new todo
             </button>
           </p>
         </div>
-        {user
-          ? todos.map((todo, index) => (
-              <TodosList
-                onClick={() => {
-                  setTodoId(todo.id || 0);
-                  setTodoName(todo.todo);
-                }}
-                key={index}
-                name={todo.todo}
-                isImportant={todo.is_important}
-                description={todo.description || ""}
-                isShared={false}
-              />
-            ))
-          : "Loading"}
+        {user &&
+          todos.map((todo, index) => (
+            <TodosList
+              onClick={() => {
+                setTodoId(todo.id || 0);
+                setTodoName(todo.todo);
+              }}
+              key={index}
+              name={todo.todo}
+              isImportant={todo.is_important}
+              description={todo.description || ""}
+              isShared={false}
+            />
+          ))}
 
-        <p>Todos shared with me</p>
+        <p>
+          {sharedTodos.length === 0 && (
+            <div className="my-20">
+              <p className="text-xl font-bold">Shared todos with me</p>
+              <p>You don't have any todos</p>
+            </div>
+          )}
+        </p>
         {sharedTodos.map((todo, index) => (
           <TodosList
             onClick={() => {

@@ -20,19 +20,19 @@ export const TodosList: React.FC<TodosProps> = ({
 }) => {
   const menuItems: MenuItemsProps[] = [
     {
-      name: "Tâche accomplie",
+      name: "Done",
       isDeleteBtn: false,
       isDoneBtn: false,
       onClick: onClick,
     },
     {
-      name: "Mettre à jour",
+      name: "Edit",
       isDeleteBtn: false,
       isDoneBtn: false,
       onClick: onClick,
     },
     {
-      name: "Supprimer",
+      name: "Remove",
       isDeleteBtn: true,
       isDoneBtn: false,
       onClick: onClick,
@@ -47,8 +47,8 @@ export const TodosList: React.FC<TodosProps> = ({
             <div className="flex items-center">
               <h2 className="font-semibold text-slate-200">{name}</h2>
               {isImportant && (
-                <h2 className="badge bg-blue-600 text-white p-3 ms-4">
-                  Important !
+                <h2 className="badge whitespace-nowrap bg-blue-600 text-white p-3 ms-4">
+                  Important
                 </h2>
               )}
             </div>
