@@ -1,6 +1,6 @@
-import { StarIcon } from "@heroicons/react/24/solid";
-import React, { useRef } from "react";
-import { useGlobalContext, useGlobalDispatch } from "../context/context";
+import { StarIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import React from "react";
+import { useGlobalDispatch } from "../context/context";
 import { Switch } from "./switch";
 
 export interface NewTodoModalProps {
@@ -16,9 +16,7 @@ export interface NewTodoModalProps {
   sharedValue: string;
   sharedEmails: string[];
   showAlert: boolean;
-  onShowFavs: () => void;
   favorites: string[];
-  onClickAddValue: () => void;
 }
 
 export const NewTodoModal: React.FC<NewTodoModalProps> = ({
@@ -34,32 +32,26 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
   sharedValue,
   sharedEmails,
   showAlert,
-  onShowFavs,
   favorites,
 }) => {
+  const [isFavoritesUsers, setIsFavoritesUsers] =
+    React.useState<boolean>(false);
+
   const dispatch = useGlobalDispatch();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const favoriteValueRef = useRef<any>(null);
-
-  const handleAddFavoriteValue = () => {
+  const handleFavoriteValue = (value: string) => {
     dispatch({
       type: "ADD_FAVORITE",
-      payload: favoriteValueRef.current.innerHTML,
+      payload: value,
     });
   };
-
-  console.log(favoriteValueRef);
-  
-
-  const { favoriteValue } = useGlobalContext();
 
   return (
     <React.Fragment>
       <dialog id="newTodoModal" className="modal">
         <form
           method="dialog"
-          className="bg-gray-900 border border-gray-700 modal-box"
+          className="bg-slate-800 border border-slate-700 modal-box"
         >
           <div className="flex mb-5 items-center">
             <span className="me-1">📝</span>
@@ -74,7 +66,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
               onChange={onToDoNameChange}
               type="text"
               placeholder=""
-              className="input mb-5 w-full text-sm bg-gray-800"
+              className="input mb-5 w-full text-sm bg-slate-700"
             />
 
             <label htmlFor="todo" className="me-2">
@@ -84,7 +76,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
               onChange={onTodoDescriptionChange}
               type="text"
               placeholder=""
-              className="input mb-5 w-full bg-gray-800"
+              className="input mb-5 w-full bg-slate-700"
             />
 
             <div className="flex w-full">
@@ -92,48 +84,38 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
                 Share with
               </label>
             </div>
-
             <div className="flex w-full">
               <div className="items-center flex w-full">
                 <input
+                  disabled={isFavoritesUsers}
                   autoComplete="on"
-                  value={favoriteValue ? favoriteValue : sharedValue}
+                  value={sharedValue}
                   onChange={onTodoShareWithChange}
                   type="email"
                   placeholder=""
-                  className="input w-full text-sm bg-gray-800"
+                  className="input w-full text-sm bg-slate-700"
                 />
               </div>
-              <span onClick={addShared} className="btn ms-4 btn-primary">
+              <button
+                disabled={isFavoritesUsers}
+                onClick={addShared}
+                className="btn ms-4 btn-primary"
+              >
                 Share
-              </span>
+              </button>
             </div>
 
-            <div className="dropdown whitespace-nowrap dropdown-bottom mt-5">
-              <label
-                tabIndex={0}
-                className=" cursor-pointer flex badge mb-1 bg-opacity-25 badge-primary"
-              >
-                <span onClick={onShowFavs} className="me-2 text-slate-300">
-                  Show favorite users
+            {!isFavoritesUsers && (
+              <div className="flex mb-2 mt-5 w-full items-center justify-between">
+                <span
+                  onClick={() => setIsFavoritesUsers(true)}
+                  className="cursor-pointer badge flex whitespace-nowrap border rounded-xl border-primary"
+                >
+                  Show favorite users{" "}
+                  <StarIcon className="w-4 ms-1 text-warning" />
                 </span>
-                <StarIcon className="w-4 text-warning" />
-              </label>
-              <ul
-                tabIndex={0}
-                className="p-1 shadow menu dropdown-content z-[1] cursor-pointer bg-gray-800 rounded-xl w-52"
-              >
-                {favorites.map((fav) => (
-                  <li
-                    onClick={handleAddFavoriteValue}
-                    ref={favoriteValueRef}
-                    className="text-white flex items-center justify-center hover:text-secondary h-8"
-                  >
-                    {fav}
-                  </li>
-                ))}
-              </ul>
-            </div>
+              </div>
+            )}
 
             {showAlert && (
               <p className="ms-1 mb-3 rounded text-red-600">
@@ -145,6 +127,35 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
               <p className="ms-1 text-secondary">{shared}</p>
             ))}
 
+            <div className="flex mt-5">
+              {isFavoritesUsers && (
+                <select
+                  onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+                    handleFavoriteValue(event.target.value)
+                  }
+                  className="select bg-primary bg-opacity-20 border-primary w-full"
+                >
+                  <option>Select favorite user</option>
+                  {favorites.map((fav) => (
+                    <option
+                      onClick={() => handleFavoriteValue(fav)}
+                      value={fav}
+                    >
+                      {fav}
+                    </option>
+                  ))}
+                </select>
+              )}
+              {isFavoritesUsers && (
+                <span
+                  onClick={() => setIsFavoritesUsers(false)}
+                  className="btn ms-4 btn-primary"
+                >
+                  <XMarkIcon className="w-5" />
+                </span>
+              )}
+            </div>
+
             <div className="flex w-full mt-5 items-center">
               <Switch
                 value={switchValue}
@@ -153,7 +164,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
               />
               <span
                 className={`label-text ${
-                  switchValue ? "text-secondary" : "text-gray-500"
+                  switchValue ? "text-secondary" : "text-slate-500"
                 } font-bold`}
               >
                 Important
@@ -163,7 +174,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
             <div className="flex w-full justify-end">
               <button
                 onClick={onClose}
-                className="btn me-2 mt-10 text-white bg-gray-600 "
+                className="btn me-2 mt-10 btn-ghost text-white"
               >
                 Cancel
               </button>

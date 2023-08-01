@@ -5,7 +5,7 @@ import { Alert } from "../components/alert";
 import { AppLayout } from "../components/layout/layout";
 import { NewTodoModal } from "../components/new-todo-modal";
 import { TodosList } from "../components/todos/todos-list";
-import { useGlobalDispatch } from "../context/context";
+import { useGlobalContext, useGlobalDispatch } from "../context/context";
 import { useAxios } from "../hooks/use-axios";
 import { Todos } from "../models";
 import { getFavoritesByEmail } from "../services/favorites";
@@ -31,7 +31,10 @@ export const Tasks: React.FC = () => {
     React.useState<boolean>(false);
   const [todoId, setTodoId] = React.useState<number>();
   const [todoAlert, setTodoAlert] = React.useState<boolean>(false);
-  const [favorites, setFavorites] = React.useState<string[]>([""]);
+  const [favorites, setFavorites] = React.useState<[]>([]);
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+
+  const { favoriteValue } = useGlobalContext();
 
   const postTodoFetch = useAxios(
     postTodo(
@@ -39,7 +42,7 @@ export const Tasks: React.FC = () => {
       todoDescription,
       todoIsImportant,
       user?.email || "",
-      todoShareWith || []
+      favoriteValue ? [favoriteValue] : todoShareWith || []
     ),
     false
   );
@@ -74,8 +77,9 @@ export const Tasks: React.FC = () => {
   React.useEffect(() => {
     if (getFavoritesByEmailFetch.response) {
       setFavorites(
-        getFavoritesByEmailFetch?.response?.[0]?.favorites?.map(
-          (fav: string[]) => fav
+        getFavoritesByEmailFetch?.response?.map(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (fav: any) => fav.favorites
         )
       );
     }
@@ -98,13 +102,25 @@ export const Tasks: React.FC = () => {
   React.useEffect(() => {
     if (todoId) {
       Swal.fire({
-        title: `You are removing todo <br /> <span class="font-bold">${todoName}</span>`,
+        title: `You are removing todo <br /> <span class="font-bold text-secondary">${todoName}</span>`,
         showCancelButton: true,
         confirmButtonText: "Remove",
-        confirmButtonColor: "green",
+        confirmButtonColor: "#BA2092",
+        allowEscapeKey: true,
+        allowOutsideClick: true,
+        background: "#111827",
+        color: "white",
+        reverseButtons: true,
       }).then((result) => {
         if (user && result.isConfirmed) {
-          Swal.fire("Todo removed with success", "", "success");
+          Swal.fire({
+            title: "Todo removed with success",
+            background: "#111827",
+            icon: "success",
+            confirmButtonColor: "#BA2092",
+            confirmButtonText: "OK !",
+            color: "white",
+          });
           deleteTodoByIdFetch
             .executeFetch()
             .then(() => getTodosByEmailFetch.executeFetch());
@@ -113,8 +129,9 @@ export const Tasks: React.FC = () => {
         }
       });
     }
+    setModalOpen(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todoId]);
+  }, [todoId, modalOpen]);
 
   React.useEffect(() => {
     if (todoAlert) {
@@ -217,32 +234,25 @@ export const Tasks: React.FC = () => {
         }
         sharedValue={sharedWithEmail}
         addShared={() => {
-          handleAddEmailToArray(sharedWithEmail);
+          handleAddEmailToArray(
+            favoriteValue ? favoriteValue : sharedWithEmail
+          );
           setSharedWithEmail("");
         }}
         sharedEmails={todoShareWith}
         showAlert={showEmailWrongAlert}
-        onShowFavs={function (): void {
-          throw new Error("Function not implemented.");
-        }}
         favorites={favorites}
-        onClickAddValue={function (): void {
-          throw new Error("Function not implemented.");
-        }}
       />
       <div className="mt-5">
         <div className="flex mt-10 items-end justify-between">
           <p>
-            <span className="text-secondary font-bold me-1">
-              {user?.given_name || user?.nickname}
-            </span>
             {todos.length === 0 ? (
               <>
                 <p className="text-xl font-bold">Your todos</p>
                 <p className="text-slate-500">You don't have any todos</p>
               </>
             ) : (
-              "My todos"
+              <p className="text-xl font-bold">My todos</p>
             )}
           </p>
           <p className="rounded">
@@ -260,6 +270,7 @@ export const Tasks: React.FC = () => {
               onClick={() => {
                 setTodoId(todo.id || 0);
                 setTodoName(todo.todo);
+                setModalOpen(true);
               }}
               key={index}
               name={todo.todo}
@@ -270,11 +281,13 @@ export const Tasks: React.FC = () => {
           ))}
 
         <p>
-          {sharedTodos.length === 0 && (
+          {sharedTodos.length === 0 ? (
             <div className="my-20">
               <p className="text-xl font-bold">Shared todos with me</p>
               <p className="text-slate-500">No shared todos :(</p>
             </div>
+          ) : (
+            <p className="text-xl font-bold">Todos shared with me</p>
           )}
         </p>
         {sharedTodos.map((todo, index) => (

@@ -1,9 +1,9 @@
+import { NewspaperIcon } from "@heroicons/react/24/solid";
 import React from "react";
-import { Hero } from "../components/layout/hero";
-import { AppLayout } from "../components/layout/layout";
 import { Alert } from "../components/alert";
 import { Card } from "../components/card";
-import { NewspaperIcon } from "@heroicons/react/24/solid";
+import { Hero } from "../components/layout/hero";
+import { AppLayout } from "../components/layout/layout";
 
 export const Home: React.FC = () => {
   const [alert, setAlert] = React.useState<boolean>(true);
@@ -31,11 +31,20 @@ export const Home: React.FC = () => {
           <h1 className="text-xl font-bold  text-white">Recent features</h1>
         </div>
 
-        <Card
-          title="Share your todos !"
-          content="You can now share your todos with emails"
-          btnLabel="See"
-        />
+        <div className="flex flex-wrap">
+          <Card
+            className="md:me-5"
+            title="Get faster with Favorite users !"
+            content="When creating a new todo, you can now quickly add a user by only selecting one"
+            btnLabel="See"
+          />
+
+          <Card
+            title="Share your todos !"
+            content="You can now share your todos with emails"
+            btnLabel="See"
+          />
+        </div>
       </div>
     </AppLayout>
   );

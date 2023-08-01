@@ -17,13 +17,13 @@ export const Menu: React.FC<MenuProps> = ({ items }) => {
     <div className="dropdown dropdown-left">
       <label
         tabIndex={0}
-        className="mb-1 p-2 hover:bg-gray-800 bg-gray-900 btn border-none"
+        className="mb-1 p-2 hover:bg-slate-800 bg-slate-900 btn border-none"
       >
         <EllipsisVerticalIcon className="w-5" />
       </label>
       <ul
         tabIndex={0}
-        className="p-1 shadow menu dropdown-content z-[1] bg-gray-800 rounded-xl w-52"
+        className="p-1 shadow menu dropdown-content z-[1] bg-slate-800 rounded-xl w-52"
       >
         {items.map((item, index) => (
           <li

@@ -43,10 +43,10 @@ export default function CTA() {
                 Maiores impedit perferendis suscipit eaque, iste dolor
                 cupiditate blanditiis ratione.
               </p>
-              <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-500 lg:max-w-none">
+              <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-slate-500 lg:max-w-none">
                 {features.map((feature) => (
                   <div key={feature.name} className="relative pl-9">
-                    <dt className="inline font-semibold text-gray-300 ">
+                    <dt className="inline font-semibold text-slate-300 ">
                       <feature.icon
                         className="absolute left-1 top-1 h-5 w-5 text-primary"
                         aria-hidden="true"
@@ -62,7 +62,7 @@ export default function CTA() {
           <img
             src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
             alt="Product screenshot"
-            className="w-[40rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[50rem] md:-ml-4 lg:-ml-0"
+            className="w-[40rem] max-w-none rounded-xl shadow-xl ring-1 ring-slate-400/10 sm:w-[50rem] md:-ml-4 lg:-ml-0"
             width={2432}
             height={1442}
           />

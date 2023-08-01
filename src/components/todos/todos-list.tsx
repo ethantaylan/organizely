@@ -19,18 +19,18 @@ export const TodosList: React.FC<TodosProps> = ({
   sharedPeoples,
 }) => {
   const menuItems: MenuItemsProps[] = [
-    {
-      name: "Done",
-      isDeleteBtn: false,
-      isDoneBtn: false,
-      onClick: onClick,
-    },
-    {
-      name: "Edit",
-      isDeleteBtn: false,
-      isDoneBtn: false,
-      onClick: onClick,
-    },
+    // {
+    //   name: "Done",
+    //   isDeleteBtn: false,
+    //   isDoneBtn: false,
+    //   onClick: onClick,
+    // },
+    // {
+    //   name: "Edit",
+    //   isDeleteBtn: false,
+    //   isDoneBtn: false,
+    //   onClick: onClick,
+    // },
     {
       name: "Remove",
       isDeleteBtn: true,
@@ -41,7 +41,7 @@ export const TodosList: React.FC<TodosProps> = ({
 
   return (
     <React.Fragment>
-      <div className="bg-gray-900 my-4 p-4 rounded-xl text-primary-content">
+      <div className="bg-slate-900 my-4 p-4 rounded-xl text-primary-content">
         <div className="flex justify-between items-center w-full">
           <div className="flex w-full items-center">
             <div className="flex-col">
@@ -58,16 +58,16 @@ export const TodosList: React.FC<TodosProps> = ({
           </div>
 
           <Menu items={menuItems} />
-          {isShared && (
-            <span
-              style={{ fontSize: 11 }}
-              className="mt-4 flex font-semibold text-sm text-yellow-500"
-            >
-              Todo author:
-              <br /> {sharedPeoples}
-            </span>
-          )}
         </div>
+        {isShared && (
+          <span
+            style={{ fontSize: 11 }}
+            className="mt-4 flex font-semibold text-sm text-yellow-500"
+          >
+            Shared by:
+            {sharedPeoples}
+          </span>
+        )}
       </div>
     </React.Fragment>
   );

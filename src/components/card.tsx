@@ -5,6 +5,7 @@ export interface CardProps {
   content: string;
   btnLabel: string;
   withButton?: boolean;
+  className?: string
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -12,29 +13,14 @@ export const Card: React.FC<CardProps> = ({
   content,
   btnLabel,
   withButton = false,
+  className
 }) => {
-  const today = new Date();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const options: any = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  };
-  const date = today.toLocaleString(undefined, options);
 
   return (
-    <div className="card mt-5 w-auto md:w-96 border-opacity-40 bg-secondary bg-opacity-20 border-secondary border text-primary-content">
-      <div className="card-body">
+    <div className={`${className} sm:w-96 w-full sm:h-auto card mt-5 border-opacity-40 bg-secondary bg-opacity-20 border-secondary border text-primary-content`}>
+      <div className="card-body flex">
         <h2 className="card-title font-bold text-secondary">{title}</h2>
         <p className="text-white">{content}</p>
-        <p
-          style={{ fontSize: 11 }}
-          className="text-end font-bold text-secondary text-opacity-75 mt-5 text-sm"
-        >
-          {date}
-        </p>
         {withButton && (
           <div className="card-actions justify-end">
             <button className="btn">{btnLabel}</button>

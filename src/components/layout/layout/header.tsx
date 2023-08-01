@@ -46,6 +46,11 @@ export const Header: React.FC = () => {
                   My todos
                 </span>
               </li>
+              <li>
+                <span onClick={() => navigate("/favorite-users")} className="justify-between">
+                  Favorite users ⭐
+                </span>
+              </li>
               <li onClick={() => logout()}>
                 <a>Logout</a>
               </li>
