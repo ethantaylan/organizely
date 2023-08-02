@@ -109,7 +109,6 @@ export const FavoriteUsers: React.FC = () => {
     setModalOpen(false);
   }, [idFavorite, modalOpen]);
 
-  console.log(idFavorite);
   return (
     <AppLayout>
       <NewFavoriteUserModal
@@ -132,28 +131,29 @@ export const FavoriteUsers: React.FC = () => {
         </button>
       </div>
 
-      {user &&
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        response?.map((favUser: any, index: number) => (
-          <div className="flex flex-col">
-            <div
-              className="mb-2 flex items-center justify-between bg-slate-800 px-6 py-1.5 rounded-xl font-semibold text-sm"
-              key={index}
-            >
-              <span>{favUser.favorites.toUpperCase()}</span>
-              <span
-                onClick={() => {
-                  handleDeleteUser(favUser.id);
-                  setEmailFavorite(favUser.favorites);
-                  setModalOpen(true);
-                }}
-                className="btn bg-slate-700 border-0"
+      {user && response?.length > 0
+        ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          response?.map((favUser: any, index: number) => (
+            <div className="flex flex-col">
+              <div
+                className="mb-2 flex items-center justify-between bg-slate-800 px-6 py-1.5 rounded-xl font-semibold text-sm"
+                key={index}
               >
-                <XCircleIcon className="w-6 cursor-pointer text-red-600" />
-              </span>
+                <span>{favUser.favorites.toUpperCase()}</span>
+                <span
+                  onClick={() => {
+                    handleDeleteUser(favUser.id);
+                    setEmailFavorite(favUser.favorites);
+                    setModalOpen(true);
+                  }}
+                  className="btn bg-slate-700 border-0"
+                >
+                  <XCircleIcon className="w-6 cursor-pointer text-red-600" />
+                </span>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        : "You do not have favorite users :("}
       {/* <label htmlFor=""></label>
       <input className="input"></input> */}
     </AppLayout>
