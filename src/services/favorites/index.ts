@@ -27,3 +27,17 @@ export const postFavoriteUSer = (
     apikey: SUPABASE_ANONKEY,
   },
 });
+
+export const deleteFavoriteUserById = (
+  id: number | null
+): AxiosRequestConfig => ({
+  url: `${SUPABASE_URL}/rest/v1/favorites`,
+  method: "DELETE",
+  params: {
+    id: `eq.${id}`,
+    select: "*",
+  },
+  headers: {
+    apikey: SUPABASE_ANONKEY,
+  },
+});
