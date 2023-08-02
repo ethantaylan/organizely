@@ -121,9 +121,10 @@ export const Tasks: React.FC = () => {
             confirmButtonText: "OK !",
             color: "white",
           });
-          deleteTodoByIdFetch
-            .executeFetch()
-            .then(() => getTodosByEmailFetch.executeFetch());
+          deleteTodoByIdFetch.executeFetch().then(() => {
+            getTodosByEmailFetch.executeFetch();
+            getSharedTodosFetch.executeFetch();
+          });
         } else if (result.isDenied) {
           Swal.fire("Changes are not saved", "", "info");
         }

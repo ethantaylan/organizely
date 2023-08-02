@@ -3,9 +3,11 @@ import { Header } from "./layout/header";
 
 export const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="h-auto w-screen p-5 flex-col">
-      <Header />
-      {children}
+    <div className="w-full flex justify-center items-center">
+      <div style={{ maxWidth: 600 }} className="h-auto p-5 flex-col">
+        <Header />
+        {children}
+      </div>
     </div>
   );
 };
