@@ -12,7 +12,6 @@ import {
 import { XCircleIcon } from "@heroicons/react/24/outline";
 
 export const FavoriteUsers: React.FC = () => {
-  const [favoriteUsers, setFavoriteUsers] = React.useState<string[]>([]);
   const [idFavorite, setIdFavorite] = React.useState<number | null>(null);
   const [emailFavorite, setEmailFavorite] = React.useState<string>("");
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
@@ -31,13 +30,6 @@ export const FavoriteUsers: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
-
-  React.useEffect(() => {
-    if (response) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      setFavoriteUsers(response.map((fav: any) => fav.favorites));
-    }
-  }, [response]);
 
   const [favUserMail, setFavUserMail] = React.useState<string>("");
 
@@ -141,7 +133,8 @@ export const FavoriteUsers: React.FC = () => {
       </div>
 
       {user &&
-        response?.map((favUser, index) => (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        response?.map((favUser: any, index: number) => (
           <div className="flex flex-col">
             <div
               className="mb-2 flex items-center justify-between bg-slate-800 px-6 py-1.5 rounded-xl font-semibold text-sm"
