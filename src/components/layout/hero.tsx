@@ -26,7 +26,7 @@ export const Hero: React.FC = () => {
             </span>
           </p>
           {user ? (
-            <NavLink className="btn btn-secondary" to="/tasks">
+            <NavLink className="btn btn-secondary px-10 border-opacity-50 bg-opacity-20" to="/tasks">
               My todos
             </NavLink>
           ) : (

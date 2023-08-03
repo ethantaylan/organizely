@@ -259,7 +259,7 @@ export const Tasks: React.FC = () => {
           <p className="rounded">
             <button
               onClick={() => window.newTodoModal.showModal()}
-              className=" btn btn-secondary btn-xs  px-3 text-md rounded"
+              className="btn btn-secondary btn-xs  px-3 py-4 text-md rounded"
             >
               Create new todo
             </button>
