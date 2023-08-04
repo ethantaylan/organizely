@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { Alert } from "../components/alert";
 import { AppLayout } from "../components/layout/layout";
 import { NewTodoModal } from "../components/new-todo-modal";
-import { TodosList } from "../components/todos/todos-list";
+import { TodosList } from "../components/todos-list";
 import { useGlobalContext, useGlobalDispatch } from "../context/context";
 import { useAxios } from "../hooks/use-axios";
 import { Todos } from "../models";
@@ -150,9 +150,8 @@ export const Tasks: React.FC = () => {
     const todoNameRegex = /^(\S+)/;
 
     if (user && !isTodoNameValid(todoName)) {
-      return Swal.fire("Todo title can't be null", "", "error");
-    }
-    {
+      Swal.fire("Todo title can't be null", "", "error");
+    } else {
       postTodoFetch.executeFetch().then(() => {
         getTodosByEmailFetch.executeFetch();
         getSharedTodosFetch.executeFetch();
@@ -213,7 +212,7 @@ export const Tasks: React.FC = () => {
     <AppLayout>
       {todoAlert && (
         <Alert
-          title={"Todo added with success"}
+          title="Todo added with success"
           className="alert alert-success"
         />
       )}
@@ -259,7 +258,7 @@ export const Tasks: React.FC = () => {
           <p className="rounded">
             <button
               onClick={() => window.newTodoModal.showModal()}
-              className="btn btn-secondary btn-xs  px-3 py-4 text-md rounded"
+              className="btn btn-secondary btn-xs px-3 text-md rounded"
             >
               Create new todo
             </button>
@@ -269,15 +268,16 @@ export const Tasks: React.FC = () => {
           todos.map((todo, index) => (
             <TodosList
               onClick={() => {
-                setTodoId(todo.id || 0);
+                setTodoId(todo.id);
                 setTodoName(todo.todo);
                 setModalOpen(true);
               }}
               key={index}
               name={todo.todo}
               isImportant={todo.is_important}
-              description={todo.description || ""}
+              description={todo.description}
               isShared={false}
+              todoId={todo.id}
             />
           ))}
 
@@ -294,15 +294,16 @@ export const Tasks: React.FC = () => {
         {sharedTodos.map((todo, index) => (
           <TodosList
             onClick={() => {
-              setTodoId(todo.id || 0);
+              setTodoId(todo.id);
               setTodoName(todo.todo);
             }}
             key={index}
             name={todo.todo}
             isImportant={todo.is_important}
-            description={todo.description || ""}
+            description={todo.description}
             isShared={true}
             sharedPeoples={sharedTodos.map((name) => name.author)}
+            todoId={todo.id}
           />
         ))}
       </div>

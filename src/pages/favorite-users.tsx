@@ -1,4 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import Swal from "sweetalert2";
 import { AppLayout } from "../components/layout/layout";
@@ -9,7 +10,6 @@ import {
   getFavoritesByEmail,
   postFavoriteUSer,
 } from "../services/favorites";
-import { XCircleIcon } from "@heroicons/react/24/outline";
 
 export const FavoriteUsers: React.FC = () => {
   const [idFavorite, setIdFavorite] = React.useState<number | null>(null);
@@ -118,7 +118,7 @@ export const FavoriteUsers: React.FC = () => {
         }
       />
       <div className="badge">Page under construction</div>
-      <h1 className="text-2xl mt-5 text-center text-secondary bg-secondary bg-opacity-20 border border-secondary p-5 rounded-xl font-bold">
+      <h1 className="text-2xl my-16 text-center text-white  bg-opacity-10 p-5 rounded-xl font-bold">
         Add a new favorite user to share your todos faster !
       </h1>
       <div className="w-full mt-10 mb-5 items-center flex justify-between">

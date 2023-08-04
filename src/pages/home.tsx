@@ -19,7 +19,7 @@ export const Home: React.FC = () => {
       {alert && (
         <Alert
           title="Organizely is optimized for mobile devices, desktop version is under construct."
-          className="alert my-2 text-white w-auto bg-secondary bg-opacity-50 border-secondary border-opacity-50 right-9 top-20"
+          className="alert my-2 text-white w-auto bg-secondary bg-opacity-10 border-secondary border-opacity-50 right-9 top-20"
         />
       )}
 

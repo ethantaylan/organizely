@@ -133,7 +133,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
                   onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
                     handleFavoriteValue(event.target.value)
                   }
-                  className="select bg-primary bg-opacity-20 border-primary w-full"
+                  className="select bg-primary bg-opacity-10 border-primary w-full"
                 >
                   <option>Select favorite user</option>
                   {favorites.map((fav) => (

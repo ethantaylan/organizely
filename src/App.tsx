@@ -1,11 +1,12 @@
 import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import { TaskDetail } from "./components/task-detail";
 import { GlobalContextProvider } from "./context/context";
 import { Guard } from "./guard/guard";
+import { FavoriteUsers } from "./pages/favorite-users";
 import { Home } from "./pages/home";
 import { Tasks } from "./pages/tasks";
-import { FavoriteUsers } from "./pages/favorite-users";
 
 function App() {
   return (
@@ -21,14 +22,25 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route
-              path="/tasks"
-              element={
-                <Guard>
-                  <Tasks />
-                </Guard>
-              }
-            />
+            <Route path="/tasks">
+              <Route
+                index
+                element={
+                  <Guard>
+                    <Tasks />
+                  </Guard>
+                }
+              />
+
+              <Route
+                path=":todoId"
+                element={
+                  <Guard>
+                    <TaskDetail />
+                  </Guard>
+                }
+              />
+            </Route>
             <Route
               path="/favorite-users"
               element={

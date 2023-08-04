@@ -1,13 +1,15 @@
 import React from "react";
-import { Menu, MenuItemsProps } from "../menu";
+import { useNavigate } from "react-router-dom";
+import { Menu, MenuItemsProps } from "./menu";
 
 export interface TodosProps {
   name: string;
   isImportant: boolean;
-  description: string;
+  description?: string;
   onClick: () => void;
   isShared: boolean;
   sharedPeoples?: string[];
+  todoId: number;
 }
 
 export const TodosList: React.FC<TodosProps> = ({
@@ -17,7 +19,10 @@ export const TodosList: React.FC<TodosProps> = ({
   onClick,
   isShared,
   sharedPeoples,
+  todoId,
 }) => {
+  const navigate = useNavigate();
+
   const menuItems: MenuItemsProps[] = [
     // {
     //   name: "Done",
@@ -41,7 +46,10 @@ export const TodosList: React.FC<TodosProps> = ({
 
   return (
     <React.Fragment>
-      <div className="bg-slate-900 my-4 p-4 rounded-xl text-primary-content">
+      <div
+        // onClick={() => navigate(`/tasks/${todoId}`)}
+        className="bg-slate-900 hover:scale-105 cursor-pointer my-4 p-4 rounded-xl text-primary-content"
+      >
         <div className="flex justify-between items-center w-full">
           <div className="flex w-full items-center">
             <div className="flex-col">
