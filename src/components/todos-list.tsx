@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Menu, MenuItemsProps } from "./menu";
 
 export interface TodosProps {
@@ -19,10 +18,7 @@ export const TodosList: React.FC<TodosProps> = ({
   onClick,
   isShared,
   sharedPeoples,
-  todoId,
 }) => {
-  const navigate = useNavigate();
-
   const menuItems: MenuItemsProps[] = [
     // {
     //   name: "Done",
