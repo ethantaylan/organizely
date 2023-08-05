@@ -1,6 +1,6 @@
-export interface Todos {
+export interface Todos{
   authorized_users: string;
-  author: string
+  author: string;
   id: number;
   todo: string;
   description?: string;

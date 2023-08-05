@@ -34,6 +34,18 @@ export const getTodosByEmail = (email: string): AxiosRequestConfig => ({
   },
 });
 
+export const getTodoById = (id: number | null): AxiosRequestConfig => ({
+  url: `${SUPABASE_URL}/rest/v1/todos`,
+  method: "GET",
+  params: {
+    id: `eq.${id}`,
+    select: "*",
+  },
+  headers: {
+    apikey: SUPABASE_ANONKEY,
+  },
+});
+
 export const getSharedTodos = (email: string): AxiosRequestConfig => ({
   url: `${SUPABASE_URL}/rest/v1/todos`,
   method: "GET",

@@ -7,7 +7,7 @@ import { NewTodoModal } from "../components/new-todo-modal";
 import { TodosList } from "../components/todos-list";
 import { useGlobalContext, useGlobalDispatch } from "../context/context";
 import { useAxios } from "../hooks/use-axios";
-import { Todos } from "../models";
+import { Todos } from "../models/todos";
 import { getFavoritesByEmail } from "../services/favorites";
 import {
   deleteTodoById,
@@ -15,6 +15,7 @@ import {
   getTodosByEmail,
   postTodo,
 } from "../services/todos";
+import { ModalDetail } from "../components/modal-detail";
 
 export const Tasks: React.FC = () => {
   const { user } = useAuth0();
@@ -92,6 +93,12 @@ export const Tasks: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+
+  // React.useEffect(() => {
+  //   getTodosByEmailFetch.response && setTodos(new Todos((s) => s));
+  //   getSharedTodosFetch.response &&
+  //     setSharedTodos(getSharedTodosFetch.response);
+  // }, [getTodosByEmailFetch.response, getSharedTodosFetch.response]);
 
   React.useEffect(() => {
     getTodosByEmailFetch.response && setTodos(getTodosByEmailFetch.response);
@@ -243,6 +250,7 @@ export const Tasks: React.FC = () => {
         showAlert={showEmailWrongAlert}
         favorites={favorites}
       />
+      <ModalDetail />
       <div className="mt-5">
         <div className="flex mt-10 items-end justify-between">
           <p>

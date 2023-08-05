@@ -35,7 +35,7 @@ export const Header: React.FC = () => {
           </span>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn flex btn-ghost avatar">
-              <div className="w-8 border-2 border-secondary rounded-full">
+              <div className="w-10 border-2 border-secondary border-opacity-50 rounded-full">
                 <img src={user?.picture} />
               </div>
               <ChevronDownIcon className="h-5 text-white" />

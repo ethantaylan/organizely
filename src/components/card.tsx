@@ -17,7 +17,7 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div
-      className={`${className} sm:w-96 w-full sm:h-auto card mt-5 border-opacity-40 bg-secondary bg-opacity-10 border-secondary border text-primary-content`}
+      className={`${className} w-full sm:h-auto card mt-5 border-opacity-40 bg-secondary bg-opacity-10 border-secondary border text-primary-content`}
     >
       <div className="card-body flex">
         <h2 className="card-title font-bold text-secondary">{title}</h2>

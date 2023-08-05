@@ -31,9 +31,8 @@ export const Home: React.FC = () => {
           <h1 className="text-xl font-bold  text-white">Recent features</h1>
         </div>
 
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap w-full">
           <Card
-            className="md:me-5"
             title="Get faster with Favorite users !"
             content="When creating a new todo, you can now quickly add a user by only selecting one"
             btnLabel="See"
