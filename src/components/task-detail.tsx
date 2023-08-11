@@ -1,10 +1,10 @@
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAxios } from "../hooks/use-axios";
+import { Todos } from "../models/todos";
 import { getTodoById } from "../services/todos";
-import { Todos, TodosResponse } from "../models";
 import { AppLayout } from "./layout/layout";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { TodosList } from "./todos-list";
 
 export interface TaskDetailProps {}
@@ -33,25 +33,26 @@ export const TaskDetail: React.FC<TaskDetailProps> = () => {
   return (
     <AppLayout>
       <span>
-        <button className="btn text-white cursor-pointer mb-10 mt-5">
+        <button
+          onClick={() => navigate("/tasks")}
+          className="btn text-white cursor-pointer mb-10 mt-5"
+        >
           {" "}
-          <ArrowLeftIcon onClick={() => navigate(-1)} className="h-6" />
+          <ArrowLeftIcon className="h-6" />
         </button>
       </span>
-      <h1 className="text-2xl text-white">Editing todo</h1>
-      <div className="bg-slate-900 rounded-2xl p-5 m-5">
-        <p className="text-white font-semibold">{todo?.todo}</p>
-        <p>{todo?.description}</p>
-        <TodosList
-          name={todo?.todo || ""}
-          isImportant={todo?.isImportant || null}
-          onClick={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-          isShared={todo?.isShared}
-          todoId={0}
-        />
-      </div>
+      <h1 className="text-2xl text-white">
+        Editing todo <span className="text-secondary">"{todo?.todo}"</span>
+      </h1>
+      <TodosList
+        withNavigate={false}
+        name={todo?.todo || ""}
+        isImportant={todo?.is_important || null}
+        isShared={todo?.is_shared || null}
+        todoId={todo?.id || null}
+        onClick={() => console.log("test")}
+        onEdit={() => console.log("test")}
+      />
     </AppLayout>
   );
 };

@@ -1,11 +1,15 @@
 import React from "react";
 
-export interface ExampleProps {}
+export interface EditTodoModalProps {
+  todoName: string,
+  todoDescription: string
 
-export const ModalDetail: React.FC<ExampleProps> = () => {
+}
+
+export const EditTodoModal: React.FC<EditTodoModalProps> = () => {
   return (
     <>
-      <dialog id="modalDetail" className="modal">
+      <dialog id="editTodoModal" className="modal">
         <form method="dialog" className="modal-box">
           <h3 className="font-bold text-lg">Hello!</h3>
           <p className="py-4">

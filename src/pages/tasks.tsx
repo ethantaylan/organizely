@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 import Swal from "sweetalert2";
 import { Alert } from "../components/alert";
+import { EditTodoModal } from "../components/edit-todo-modal";
 import { AppLayout } from "../components/layout/layout";
 import { NewTodoModal } from "../components/new-todo-modal";
 import { TodosList } from "../components/todos-list";
@@ -15,7 +16,6 @@ import {
   getTodosByEmail,
   postTodo,
 } from "../services/todos";
-import { ModalDetail } from "../components/modal-detail";
 
 export const Tasks: React.FC = () => {
   const { user } = useAuth0();
@@ -33,6 +33,8 @@ export const Tasks: React.FC = () => {
   const [todoId, setTodoId] = React.useState<number>();
   const [todoAlert, setTodoAlert] = React.useState<boolean>(false);
   const [favorites, setFavorites] = React.useState<[]>([]);
+
+  const [editModalOpen, setEditModalOpen] = React.useState<boolean>(false);
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
 
   const { favoriteValue } = useGlobalContext();
@@ -107,7 +109,7 @@ export const Tasks: React.FC = () => {
   }, [getTodosByEmailFetch.response, getSharedTodosFetch.response]);
 
   React.useEffect(() => {
-    if (todoId) {
+    if (editModalOpen && todoId) {
       Swal.fire({
         title: `You are removing todo <br /> <span class="font-bold text-secondary">${todoName}</span>`,
         showCancelButton: true,
@@ -166,6 +168,13 @@ export const Tasks: React.FC = () => {
       resetTodoState();
       setTodoAlert(true);
     }
+  };
+
+  const handleEditModal = (id: number) => {
+    setEditModalOpen(true);
+    window.editTodoModal.showModal();
+    setTodoId(id);
+    console.log(id);
   };
 
   const handleModalClose = () => {
@@ -250,7 +259,9 @@ export const Tasks: React.FC = () => {
         showAlert={showEmailWrongAlert}
         favorites={favorites}
       />
-      <ModalDetail />
+
+      <EditTodoModal />
+
       <div className="mt-5">
         <div className="flex mt-10 items-end justify-between">
           <p>
@@ -286,6 +297,8 @@ export const Tasks: React.FC = () => {
               description={todo.description}
               isShared={false}
               todoId={todo.id}
+              withNavigate={false}
+              onEdit={() => handleEditModal(todo.id)}
             />
           ))}
 
@@ -312,6 +325,8 @@ export const Tasks: React.FC = () => {
             isShared={true}
             sharedPeoples={sharedTodos.map((name) => name.author)}
             todoId={todo.id}
+            onEdit={() => handleEditModal(todo.id)}
+            withNavigate={false}
           />
         ))}
       </div>

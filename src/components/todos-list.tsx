@@ -1,15 +1,16 @@
 import React from "react";
 import { Menu, MenuItemsProps } from "./menu";
-import { useNavigate } from "react-router-dom";
 
 export interface TodosProps {
   name: string;
-  isImportant: boolean;
+  isImportant: boolean | null;
   description?: string;
   onClick: () => void;
-  isShared: boolean;
+  onEdit: () => void
+  isShared: boolean | null;
   sharedPeoples?: string[];
-  todoId: number;
+  todoId: number | null;
+  withNavigate: boolean;
 }
 
 export const TodosList: React.FC<TodosProps> = ({
@@ -19,7 +20,9 @@ export const TodosList: React.FC<TodosProps> = ({
   onClick,
   isShared,
   sharedPeoples,
-  todoId
+  onEdit
+  // todoId,
+  // withNavigate = true,
 }) => {
   const menuItems: MenuItemsProps[] = [
     // {
@@ -32,7 +35,7 @@ export const TodosList: React.FC<TodosProps> = ({
       name: "Edit",
       isDeleteBtn: false,
       isDoneBtn: false,
-      onClick: onClick,
+      onClick: onEdit,
     },
     {
       name: "Remove",
@@ -42,15 +45,15 @@ export const TodosList: React.FC<TodosProps> = ({
     },
   ];
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate();
 
   return (
     <React.Fragment>
-      <div
-        onClick={() => navigate(`/tasks/${todoId}`)}
-        className="bg-slate-900 hover:scale-105 cursor-pointer my-4 p-4 rounded-xl text-primary-content"
-      >
-        <div className="flex justify-between items-center w-full">
+      <div className="bg-slate-900 my-4 p-4 rounded-xl text-primary-content">
+        <div
+          // onClick={() => withNavigate && navigate(`/tasks/${todoId}`)}
+          className="flex justify-between items-center w-full"
+        >
           <div className="flex w-full items-center">
             <div className="flex-col">
               <h2 className="font-semibold text-slate-200">{name}</h2>
