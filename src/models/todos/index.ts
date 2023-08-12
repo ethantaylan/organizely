@@ -1,4 +1,4 @@
-export interface Todos{
+export interface Todos {
   authorized_users: string;
   author: string;
   id: number;
