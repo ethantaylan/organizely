@@ -13,16 +13,16 @@ export const Hero: React.FC = () => {
     >
       <div className="hero-content text-center">
         <div className="max-w-md">
-          <h1 className="lg:text-7xl text-4xl text-white font-bold whitespace-nowrap">
+          <h1 className="lg:text-7xl text-4xl text-slate-300 font-bold whitespace-nowrap">
             Hello there 👋
           </h1>
           <p className="py-6 text-xl">
             Organizely is your{" "}
-            <span className="font-bold text-white">Ultimate Todo App!</span>{" "}
+            <span className="font-bold text-slate-300">Ultimate Todo App!</span>{" "}
             <br />
             Master your tasks with ease and stay organized effortlessly. <br />{" "}
             <br />
-            <span className="text-white font-bold">
+            <span className="text-slate-300 font-bold">
               Let Organizely be your productivity partner!
             </span>
           </p>

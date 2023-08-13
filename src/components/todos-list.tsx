@@ -1,4 +1,3 @@
-import { XCircleIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, MenuItemsProps } from "./menu";
@@ -50,12 +49,12 @@ export const TodosList: React.FC<TodosProps> = ({
     <React.Fragment>
       <div className="relative bg-slate-900 my-4 p-4 py-4 rounded-xl text-primary-content">
         <div className="flex justify-between items-center w-full">
-          <div style={{ maxWidth: "90%" }}  className="flex w-full">
+          <div style={{ maxWidth: "90%" }} className="flex w-full">
             <div className="flex-col max-w-full">
               <h2 className="font-semibold text-slate-200">
                 {name}
                 {isImportant && (
-                  <h2 className="badge whitespace-nowrap bg-blue-600 text-white p-3 ms-4">
+                  <h2 className="badge whitespace-nowrap bg-blue-600 text-slate-300 p-3 ms-4">
                     Important
                   </h2>
                 )}

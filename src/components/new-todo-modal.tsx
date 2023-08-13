@@ -160,7 +160,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
         >
           <div className="flex mb-5 items-center">
             <span className="me-1">📝</span>
-            <h1 className="font-bold text-white">New todo</h1>
+            <h1 className="font-bold text-slate-300">New todo</h1>
           </div>
 
           <div className="flex flex-col">
@@ -307,7 +307,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
             <div className="flex w-full justify-end">
               <button
                 onClick={handleModalClose}
-                className="btn me-2 mt-10 btn-ghost text-white"
+                className="btn me-2 mt-10 btn-ghost text-slate-300"
               >
                 Cancel
               </button>
