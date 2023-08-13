@@ -35,7 +35,7 @@ export const TodosList: React.FC<TodosProps> = ({
               <h2 className="font-semibold text-slate-200">
                 {name}
                 {isImportant && (
-                  <h2 className="badge whitespace-nowrap bg-blue-600 text-white p-3 ms-4">
+                  <h2 className="badge whitespace-nowrap bg-blue-600 text-slate-300 p-3 ms-4">
                     Important
                   </h2>
                 )}

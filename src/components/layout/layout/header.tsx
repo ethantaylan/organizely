@@ -13,7 +13,7 @@ export const Header: React.FC = () => {
     <div className="navbar bg-slate-900 rounded-xl mb-5 flex justify-between text-primary-content">
       <div className="flex p-0 btn btn-ghost">
         <NavLink
-          className="relative font-bold p-0 text-white normal-case text-xl"
+          className="relative font-bold p-0 text-slate-300 normal-case text-xl"
           to="/"
         >
           ✌Organizely
@@ -38,7 +38,7 @@ export const Header: React.FC = () => {
               <div className="w-8 border-secondary border-opacity-50 rounded-full">
                 <img src={user?.picture} />
               </div>
-              <ChevronDownIcon className="h-5 text-white" />
+              <ChevronDownIcon className="h-5 text-slate-300" />
             </label>
             <ul
               tabIndex={0}

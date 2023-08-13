@@ -126,19 +126,19 @@ export const TaskDetail: React.FC = () => {
       <span>
         <button
           onClick={() => navigate("/tasks")}
-          className="btn text-white cursor-pointer mb-10 mt-5"
+          className="btn text-slate-300 cursor-pointer mb-10 mt-5"
         >
           <ArrowLeftIcon className="h-6" />
         </button>
       </span>
-      <h1 className="text-2xl text-white">
+      <h1 className="text-2xl text-slate-300">
         Editing todo <span className="text-secondary">{todo?.todo}</span>
       </h1>
       <div className="bg-slate-900 rounded-2xl flex flex-col p-5 mt-5">
         <label htmlFor="name">Name</label>
         <input
           onChange={handleEditTodoName}
-          className={`input mb-5 bg-slate-800 text-white font-semibold ${
+          className={`input mb-5 bg-slate-800 text-slate-300 font-semibold ${
             !todoNameValid ? "border-red-500" : ""
           }`}
           value={editedTodoName}
@@ -224,7 +224,7 @@ export const TaskDetail: React.FC = () => {
           </button>
           {/* <button
             onClick={updateTodoFetch.executeFetch}
-            className="btn mt-5 ms-2 w-100 text-white bg-red-500"
+            className="btn mt-5 ms-2 w-100 text-slate-300 bg-red-500"
           >
             DELETE TODO
           </button> */}

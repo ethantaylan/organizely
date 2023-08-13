@@ -1,5 +1,5 @@
 import { User, useAuth0 } from "@auth0/auth0-react";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { InformationCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import Swal from "sweetalert2";
@@ -9,6 +9,7 @@ import { Todos } from "../models/todos";
 import { getFavoritesByEmail } from "../services/favorites";
 import { postTodo } from "../services/todos";
 import { Switch } from "./switch";
+import { NavLink } from "react-router-dom";
 
 export interface NewTodoModalProps {
   onPostTodo: () => void;
@@ -157,7 +158,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
         >
           <div className="flex mb-5 items-center">
             <span className="me-1">📝</span>
-            <h1 className="font-bold text-white">New todo</h1>
+            <h1 className="font-bold text-slate-300">New todo</h1>
           </div>
 
           <div className="flex flex-col">
@@ -272,6 +273,18 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
               </span>
             </div>
 
+            <div className="mt-3 text-sm">
+              <div className="flex">
+                <InformationCircleIcon className="w-4 me-1" />
+                <p>
+                  To register a new favorite user, click{" "}
+                  <NavLink to="/favorite-users" className="font-semibold">
+                    here
+                  </NavLink>
+                </p>
+              </div>
+            </div>
+
             <div className="flex w-full mt-5 items-center">
               <Switch
                 value={todoIsImportant}
@@ -289,7 +302,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
             <div className="flex w-full justify-end">
               <button
                 onClick={handleModalClose}
-                className="btn me-2 mt-10 btn-ghost text-white"
+                className="btn me-2 mt-10 btn-ghost text-slate-300"
               >
                 Cancel
               </button>

@@ -21,13 +21,13 @@ export const Home: React.FC = () => {
       {/* {alert && (
         <Alert
           title="Organizely is optimized for mobile devices, desktop version is under construct."
-          className="alert my-2 text-white w-auto bg-primary bg-opacity-10 border-opacity-50 right-9 top-20"
+          className="alert my-2 text-slate-300 w-auto bg-primary bg-opacity-10 border-opacity-50 right-9 top-20"
         />
       )} */}
 
-      <div className="flex badge">
+      <div className="flex p-2 bg-slate-900 badge">
         <InformationCircleIcon className="w-4 me-1" />
-        <p className="text-sm">Only mobile version is available</p>
+        <p className="text-sm font-semibold">Optimized for mobile devices</p>
       </div>
 
       <Hero />
@@ -35,7 +35,7 @@ export const Home: React.FC = () => {
       <div className="mt-10">
         <div className="flex items-center">
           <NewspaperIcon className="h-5 me-2 text-secondary" />
-          <h1 className="text-xl font-bold  text-white">Recent features</h1>
+          <h1 className="text-xl font-bold  text-slate-300">Recent features</h1>
         </div>
 
         <div className="flex flex-wrap w-full">

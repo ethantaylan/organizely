@@ -124,9 +124,9 @@ export const FavoriteUsers: React.FC = () => {
           setFavUserMail(event.target.value)
         }
       />
-      <div className="badge">Page under construction</div>
-      <h1 className="text-2xl my-16 text-center text-white font-bold">
-        Add a new favorite user to share your todos faster !
+      {/* <div className="badge">Page under construction</div> */}
+      <h1 className="text-2xl my-16 text-center text-slate-300 font-bold">
+        Add a new favorite user to share your todos faster ! 🚀
       </h1>
       <div className="w-full mt-10 mb-5 items-center flex justify-between">
         <p className="text-xl font-bold">Your favorite users</p>

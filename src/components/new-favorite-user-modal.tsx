@@ -7,13 +7,13 @@ export interface NewFavoriteUserModalProps {
 
 export const NewFavoriteUserModal: React.FC<NewFavoriteUserModalProps> = ({
   onConfirm,
-  onEmailChange
+  onEmailChange,
 }) => {
   return (
     <React.Fragment>
       <dialog id="newFavoriteUserModal" className="modal">
         <form method="dialog" className="modal-box bg-slate-800">
-          <h3 className="font-bold mb-5 text-white text-lg">
+          <h3 className="font-bold mb-5 text-slate-300 text-lg">
             New favorite user
           </h3>
           <div className="flex flex-col">
@@ -22,7 +22,7 @@ export const NewFavoriteUserModal: React.FC<NewFavoriteUserModalProps> = ({
           </div>
 
           <div className="modal-action">
-            <button className="btn text-white btn-ghost">Cancel</button>
+            <button className="btn text-slate-300 btn-ghost">Cancel</button>
             <button onClick={onConfirm} className="btn btn-secondary">
               Confirm
             </button>
