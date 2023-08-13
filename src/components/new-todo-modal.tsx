@@ -1,7 +1,8 @@
 import { User, useAuth0 } from "@auth0/auth0-react";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { InformationCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import React from "react";
+import { NavLink } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useGlobalDispatch } from "../context/context";
 import { useAxios } from "../hooks/use-axios";
@@ -92,8 +93,10 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
         setEmailWrongAlert(false);
       }, 2500);
     } else {
-      setTodoShareWith([...todoShareWith, email]);
-      setSharedWithEmail("");
+      if (!todoShareWith.includes(email)) {
+        setTodoShareWith([...todoShareWith, email]);
+        setSharedWithEmail("");
+      }
     }
   };
 
@@ -239,9 +242,17 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
                 Wrong adresse email format
               </p>
             )}
-
+            {todoShareWith.length > 0 && (
+              <p className="text-warning flex mt-2 text-sm">
+                This todo wil be shared with:
+              </p>
+            )}
             {todoShareWith.map((shared) => (
-              <p className="ms-1 text-secondary">{shared}</p>
+              <div className="flex w-auto rounded-xl">
+                <span className="text-warning font-semibold flex">
+                  {shared}
+                </span>
+              </div>
             ))}
 
             <div className="flex mt-5">
@@ -272,6 +283,13 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
               </span>
             </div>
 
+            <div className="flex text-sm mt-2">
+              <InformationCircleIcon className="w-4 me-1" />
+              To register a new favorite user, click{" "}
+              <NavLink to="/favorite-users" className="font-semibold ms-1 link">
+                here
+              </NavLink>
+            </div>
             <div className="flex w-full mt-5 items-center">
               <Switch
                 value={todoIsImportant}
