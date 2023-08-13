@@ -1,6 +1,7 @@
 import { ArrowLeftIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import { useAxios } from "../hooks/use-axios";
 import { Todos } from "../models/todos";
 import { getTodoById, patchTodo } from "../services/todos";
@@ -8,6 +9,9 @@ import { AppLayout } from "./layout/layout";
 import { Switch } from "./switch";
 
 export const TaskDetail: React.FC = () => {
+  const [emailValid, setEmailValid] = React.useState<boolean>(true);
+  const [todoNameValid, setTodoNameValid] = React.useState<boolean>(true);
+
   const [todo, setTodo] = React.useState<Todos | undefined>(undefined);
   const [editedTodoName, setEditedTodoName] = React.useState<string>("");
   const [editedTodoIsImportant, setEditedTodoIsImportant] = React.useState<
@@ -26,7 +30,7 @@ export const TaskDetail: React.FC = () => {
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const updateTodoFetch = useAxios<any>(
+  const patchTodoFetch = useAxios<any>(
     patchTodo(
       +todoId!,
       editedTodoName,
@@ -36,6 +40,8 @@ export const TaskDetail: React.FC = () => {
     ),
     false
   );
+
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (todoId) {
@@ -62,7 +68,15 @@ export const TaskDetail: React.FC = () => {
     todo && setEditedTodoName(todo?.todo);
   }, [todo]);
 
-  const navigate = useNavigate();
+  React.useEffect(() => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setEmailValid(emailRegex.test(newSharedUser));
+  }, [newSharedUser]);
+
+  React.useEffect(() => {
+    const todoNameRegex = /^(\S+)/;
+    setTodoNameValid(todoNameRegex.test(editedTodoName));
+  }, [editedTodoName]);
 
   const handleEditTodoName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEditedTodoName(event.target.value);
@@ -73,7 +87,6 @@ export const TaskDetail: React.FC = () => {
   ) => {
     setEditedTodoDescription(event.target.value);
   };
-  console.log(editedTodoIsImportant);
 
   const handleRemoveSharedUser = (email: string) => {
     setTodoIsWharedWith((prevSharedUsers) =>
@@ -88,6 +101,23 @@ export const TaskDetail: React.FC = () => {
         newSharedUser,
       ]);
       setNewSharedUser("");
+    }
+  };
+
+  const handleUpdateTodo = () => {
+    if (todoNameValid) {
+      patchTodoFetch.executeFetch().then(() => {
+        Swal.fire({
+          title: "Todo has been updated with success",
+          background: "#111827",
+          icon: "success",
+          confirmButtonColor: "#BA2092",
+          confirmButtonText: "OK !",
+          color: "white",
+        }).then(() => {
+          navigate("/tasks");
+        });
+      });
     }
   };
 
@@ -108,7 +138,9 @@ export const TaskDetail: React.FC = () => {
         <label htmlFor="name">Name</label>
         <input
           onChange={handleEditTodoName}
-          className="input mb-5 bg-slate-800 text-white font-semibold"
+          className={`input mb-5 bg-slate-800 text-white font-semibold ${
+            !todoNameValid ? "border-red-500" : ""
+          }`}
           value={editedTodoName}
         />
 
@@ -116,7 +148,7 @@ export const TaskDetail: React.FC = () => {
           <label htmlFor="description">Description</label>
           <input
             onChange={handleEditTodoDescription}
-            className="input bg-slate-800 text-white font-semibold"
+            className="input bg-slate-800"
             value={editedTodoDescription}
           />
         </>
@@ -136,7 +168,7 @@ export const TaskDetail: React.FC = () => {
             </div>
           ))
         ) : (
-          <p className="font-bold mt-5">This todo is not shared</p>
+          <p className="text-warning mt-5">This todo is not shared</p>
         )}
 
         <p className="mt-5">Add new shared user</p>
@@ -145,14 +177,17 @@ export const TaskDetail: React.FC = () => {
           <input
             type="email"
             placeholder="Enter email"
-            className="input w-full text-sm bg-slate-800"
+            className={`input w-full text-sm bg-slate-800`}
             value={newSharedUser}
             onChange={(e) => setNewSharedUser(e.target.value)}
           />
 
           <button
             onClick={handleAddSharedUser}
-            className="btn ms-3 btn-primary"
+            className={`btn ms-3 btn-primary ${
+              !emailValid ? "cursor-not-allowed" : ""
+            }`}
+            disabled={!emailValid}
           >
             Add
           </button>
@@ -182,7 +217,7 @@ export const TaskDetail: React.FC = () => {
             My todos
           </button>
           <button
-            onClick={updateTodoFetch.executeFetch}
+            onClick={handleUpdateTodo}
             className="btn mt-5 w-100 btn-secondary"
           >
             Update

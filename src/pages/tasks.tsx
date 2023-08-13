@@ -78,7 +78,14 @@ export const Tasks: React.FC = () => {
             getSharedTodosFetch.executeFetch();
           });
         } else if (result.isDenied) {
-          Swal.fire("Changes are not saved", "", "info");
+          Swal.fire({
+            title: "Changes are not saved",
+            background: "#111827",
+            icon: "info",
+            confirmButtonColor: "#BA2092",
+            confirmButtonText: "OK !",
+            color: "white",
+          });
         }
       });
     }
@@ -102,7 +109,21 @@ export const Tasks: React.FC = () => {
           className="alert alert-success"
         />
       )}
-
+      <div
+        style={{
+          // backgroundImage: `url(${HeroBg})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPositionY: "25%",
+          height: 150,
+        }}
+        className="flex  border-slate-800 border flex-col p-10 justify-center items-center rounded-xl mt-5"
+      >
+        <h1 className="text-xl text-center drop-shadow-xl text-slate-200 font-semibold">
+          <q>Focus on being productive instead of busy.</q>
+        </h1>
+        <p className="mt-3">Tim Ferriss</p>
+      </div>{" "}
       <NewTodoModal
         onPostTodo={() => {
           getTodosByEmailFetch.executeFetch();
@@ -112,7 +133,7 @@ export const Tasks: React.FC = () => {
       />
       <ModalDetail />
       <div className="mt-5">
-        <div className="flex mt-10 items-end justify-between">
+        <div className="flex mt-10 items-center justify-between">
           <p>
             {todos.length === 0 ? (
               <>
@@ -126,7 +147,7 @@ export const Tasks: React.FC = () => {
           <p className="rounded">
             <button
               onClick={() => window.newTodoModal.showModal()}
-              className="px-4 bg-secondary py-2 text-md font-semibold text-white rounded-lg"
+              className="btn btn-secondary hover:bg-opacity-50 bg-opacity-25"
             >
               New todo
             </button>

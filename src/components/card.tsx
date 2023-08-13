@@ -17,7 +17,7 @@ export const NewFeatureCard: React.FC<NewFeatureCardProps> = ({
 }) => {
   return (
     <div
-      className={`${className} w-full sm:h-auto mt-5 bg-neutral-900 rounded-xl text-primary-content`}
+      className={`${className} w-full sm:h-auto mt-5 bg-slate-900 rounded-xl text-primary-content`}
     >
       <div className="card-body flex">
         <h2 className="card-title font-bold text-secondary">{title}</h2>

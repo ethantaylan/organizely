@@ -102,7 +102,14 @@ export const FavoriteUsers: React.FC = () => {
             color: "white",
           });
         } else if (result.isDenied) {
-          Swal.fire("Changes are not saved", "", "info");
+          Swal.fire({
+            title: "Changes are not saved",
+            background: "#111827",
+            icon: "info",
+            confirmButtonColor: "#BA2092",
+            confirmButtonText: "OK !",
+            color: "white",
+          });
         }
       });
     }
@@ -125,9 +132,9 @@ export const FavoriteUsers: React.FC = () => {
         <p className="text-xl font-bold">Your favorite users</p>
         <button
           onClick={() => window.newFavoriteUserModal.showModal()}
-          className="rounded-lg btn-secondary px-4 py-2 font-semibold"
+          className="btn btn-secondary hover:bg-opacity-50 bg-opacity-25"
         >
-          Add new favorite user
+          New favorite user
         </button>
       </div>
 

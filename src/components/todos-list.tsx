@@ -9,7 +9,7 @@ export interface TodosProps {
   isShared: boolean;
   sharedPeoples?: string[];
   todoId: number;
-  onClick: () => void
+  onClick: () => void;
 }
 
 export const TodosList: React.FC<TodosProps> = ({
@@ -19,29 +19,8 @@ export const TodosList: React.FC<TodosProps> = ({
   isShared,
   sharedPeoples,
   todoId,
-  onClick
+  onClick,
 }) => {
-  // const menuItems: MenuItemsProps[] = [
-  //   // {
-  //   //   name: "Done",
-  //   //   isDeleteBtn: false,
-  //   //   isDoneBtn: false,
-  //   //   onClick: onClick,
-  //   // },
-  //   {
-  //     name: "Edit",
-  //     isDeleteBtn: false,
-  //     isDoneBtn: false,
-  //     onClick: onClick,
-  //   },
-  //   {
-  //     name: "Remove",
-  //     isDeleteBtn: true,
-  //     isDoneBtn: false,
-  //     onClick: onClick,
-  //   },
-  // ];
-
   const navigate = useNavigate();
 
   return (
@@ -50,23 +29,26 @@ export const TodosList: React.FC<TodosProps> = ({
         <div className="flex justify-between items-center w-full">
           <div
             onClick={() => navigate(`/tasks/${todoId}`)}
-            className="flex w-full items-center"
+            className="flex w-full "
           >
             <div className="flex-col">
-              <h2 className="font-semibold text-slate-200">{name}</h2>
+              <h2 className="font-semibold text-slate-200">
+                {name}
+                {isImportant && (
+                  <h2 className="badge whitespace-nowrap bg-blue-600 text-white p-3 ms-4">
+                    Important
+                  </h2>
+                )}
+              </h2>
               {description && (
                 <h3 className="text-slate-400 text-sm mt-2">{description}</h3>
               )}
             </div>
-            {isImportant && (
-              <h2 className="badge whitespace-nowrap bg-blue-600 text-white p-3 ms-4">
-                Important
-              </h2>
-            )}
           </div>
-
-          {/* <Menu items={menuItems} /> */}
-          <button onClick={onClick} className="btn absolute right-5 bg-slate-800 hover:bg-slate-700">
+          <button
+            onClick={onClick}
+            className="btn absolute right-5 bg-slate-800 hover:bg-slate-700"
+          >
             <XCircleIcon className="w-6 text-red-500" />
           </button>
         </div>

@@ -109,7 +109,14 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
     const todoNameRegex = /^(\S+)/;
 
     if (user && !isTodoNameValid(todoName)) {
-      Swal.fire("Todo title can't be null", "", "error");
+      Swal.fire({
+        title: "Todo title can't be null",
+        background: "#111827",
+        icon: "error",
+        confirmButtonColor: "#BA2092",
+        confirmButtonText: "OK !",
+        color: "white",
+      });
     } else {
       postTodoFetch.executeFetch().then(() => {
         onPostTodo();
