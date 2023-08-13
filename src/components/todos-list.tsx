@@ -10,7 +10,6 @@ export interface TodosProps {
   sharedPeoples?: string[];
   todoId: number;
   onClick: () => void;
-  onEdit: () => void;
 }
 
 export const TodosList: React.FC<TodosProps> = ({
