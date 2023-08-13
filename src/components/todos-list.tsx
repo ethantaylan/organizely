@@ -1,6 +1,6 @@
-import { XCircleIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Menu, MenuItemsProps } from "./menu";
 
 export interface TodosProps {
   name: string;
@@ -10,6 +10,7 @@ export interface TodosProps {
   sharedPeoples?: string[];
   todoId: number;
   onClick: () => void;
+  onEdit: () => void;
 }
 
 export const TodosList: React.FC<TodosProps> = ({
@@ -23,15 +24,33 @@ export const TodosList: React.FC<TodosProps> = ({
 }) => {
   const navigate = useNavigate();
 
+  const menuItems: MenuItemsProps[] = [
+    // {
+    //   name: "Done",
+    //   isDeleteBtn: false,
+    //   isDoneBtn: false,
+    //   onClick: onClick,
+    // },
+    {
+      name: "Edit",
+      isDeleteBtn: false,
+      isDoneBtn: false,
+      onClick: () => navigate(`/tasks/${todoId}`),
+    },
+    {
+      name: "Delete",
+      isDeleteBtn: true,
+      isDoneBtn: false,
+      onClick: onClick,
+    },
+  ];
+
   return (
     <React.Fragment>
-      <div className="relative bg-slate-900 hover:scale-105 cursor-pointer my-4 p-4 py-6 rounded-xl text-primary-content">
+      <div className="relative bg-slate-900 my-4 p-4 py-4 rounded-xl text-primary-content">
         <div className="flex justify-between items-center w-full">
-          <div
-            onClick={() => navigate(`/tasks/${todoId}`)}
-            className="flex w-full "
-          >
-            <div className="flex-col">
+          <div style={{ maxWidth: "90%" }} className="flex w-full">
+            <div className="flex-col max-w-full">
               <h2 className="font-semibold text-slate-200">
                 {name}
                 {isImportant && (
@@ -41,16 +60,17 @@ export const TodosList: React.FC<TodosProps> = ({
                 )}
               </h2>
               {description && (
-                <h3 className="text-slate-400 text-sm mt-2">{description}</h3>
+                <p
+                  style={{}}
+                  className="text-slate-400 text-sm mt-2 break-words"
+                >
+                  {description}
+                </p>
               )}
             </div>
           </div>
-          <button
-            onClick={onClick}
-            className="btn absolute right-5 bg-slate-800 hover:bg-slate-700"
-          >
-            <XCircleIcon className="w-6 text-red-500" />
-          </button>
+
+          <Menu items={menuItems} />
         </div>
         {isShared && (
           <span
