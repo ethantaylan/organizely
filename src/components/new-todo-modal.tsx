@@ -1,49 +1,224 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { StarIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import React from "react";
-import { useGlobalDispatch } from "../context/context";
+import Swal from "sweetalert2";
+import { useGlobalContext, useGlobalDispatch } from "../context/context";
+import { useAxios } from "../hooks/use-axios";
+import { Todos } from "../models/todos";
+import { getFavoritesByEmail } from "../services/favorites";
+import {
+  deleteTodoById,
+  getSharedTodos,
+  getTodosByEmail,
+  postTodo,
+} from "../services/todos";
 import { Switch } from "./switch";
 
-export interface NewTodoModalProps {
-  onConfirm: () => void;
-  onToDoNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onTodoDescriptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onTodoIsImportantChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onTodoShareWithChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  switchValue: boolean;
-  switchOnClick: (value: boolean) => void;
-  onClose: () => void;
-  addShared: () => void;
-  sharedValue: string;
-  sharedEmails: string[];
-  showAlert: boolean;
-  favorites: string[];
-}
+export interface NewTodoModalProps {}
 
-export const NewTodoModal: React.FC<NewTodoModalProps> = ({
-  onConfirm,
-  onToDoNameChange,
-  onTodoDescriptionChange,
-  onTodoIsImportantChange,
-  onTodoShareWithChange,
-  switchValue,
-  switchOnClick,
-  onClose,
-  addShared,
-  sharedValue,
-  sharedEmails,
-  showAlert,
-  favorites,
-}) => {
+export const NewTodoModal: React.FC<NewTodoModalProps> = ({}) => {
   const [isFavoritesUsers, setIsFavoritesUsers] =
     React.useState<boolean>(false);
+  const [todos, setTodos] = React.useState<Todos[]>([]);
+  const [todoName, setTodoName] = React.useState<string>("");
+  const [todoDescription, setTodoDescription] = React.useState<string>("");
+  const [todoShareWith, setTodoShareWith] = React.useState<string[]>([]);
+  const [sharedTodos, setSharedTodos] = React.useState<Todos[]>([]);
+  const [todoIsImportant, setTodoIsImportant] = React.useState<boolean>(false);
+  const [favorites, setFavorites] = React.useState<[]>([]);
+  const [showEmailWrongAlert, setEmailWrongAlert] =
+    React.useState<boolean>(false);
+  const [todoId, setTodoId] = React.useState<number>();
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+  const [todoAlert, setTodoAlert] = React.useState<boolean>(false);
+  const [todoShareWith, setTodoShareWith] = React.useState<string[]>([]);
+  const [sharedWithEmail, setSharedWithEmail] = React.useState<string>("");
 
-  const dispatch = useGlobalDispatch();
+  const { favoriteValue } = useGlobalContext();
+
+  const { user } = useAuth0();
+
+  const postTodoFetch = useAxios(
+    postTodo(
+      todoName,
+      todoDescription,
+      todoIsImportant,
+      user?.email || "",
+      favoriteValue ? [favoriteValue] : todoShareWith || []
+    ),
+    false
+  );
+
+  const getTodosByEmailFetch = useAxios<Todos[]>(
+    getTodosByEmail(user?.email || ""),
+    false
+  );
+
+  const deleteTodoByIdFetch = useAxios<Todos>(
+    deleteTodoById(todoId || 0),
+    false
+  );
+
+  const getSharedTodosFetch = useAxios<Todos[]>(
+    getSharedTodos(user?.email || ""),
+    false
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const getFavoritesByEmailFetch = useAxios<any>(
+    getFavoritesByEmail(user?.email || ""),
+    false
+  );
 
   const handleFavoriteValue = (value: string) => {
     dispatch({
       type: "ADD_FAVORITE",
       payload: value,
     });
+  };
+
+  const handleTodoName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoName(event.target.value);
+  };
+
+  const handleTodoDescription = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setTodoDescription(event.target.value);
+  };
+
+  const handleTodoSharedWith = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoShareWith([event.target.value]);
+  };
+
+  const handleTodoIsImportant = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setTodoIsImportant(!event.target.value);
+  };
+
+  React.useEffect(() => {
+    if (user) {
+      getFavoritesByEmailFetch.executeFetch();
+    }
+  }, [user]);
+
+  React.useEffect(() => {
+    if (getFavoritesByEmailFetch.response) {
+      setFavorites(
+        getFavoritesByEmailFetch?.response?.map(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (fav: any) => fav.favorites
+        )
+      );
+    }
+  }, [getFavoritesByEmailFetch.response]);
+
+  React.useEffect(() => {
+    if (user) {
+      getSharedTodosFetch.executeFetch();
+      getTodosByEmailFetch.executeFetch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  React.useEffect(() => {
+    getTodosByEmailFetch.response && setTodos(getTodosByEmailFetch.response);
+    getSharedTodosFetch.response &&
+      setSharedTodos(getSharedTodosFetch.response);
+  }, [getTodosByEmailFetch.response, getSharedTodosFetch.response]);
+
+  React.useEffect(() => {
+    if (todoId) {
+      Swal.fire({
+        title: `You are removing todo <br /> <span class="font-bold text-secondary">${todoName}</span>`,
+        showCancelButton: true,
+        confirmButtonText: "Remove",
+        confirmButtonColor: "#BA2092",
+        allowEscapeKey: true,
+        allowOutsideClick: true,
+        background: "#111827",
+        color: "white",
+        reverseButtons: true,
+      }).then((result) => {
+        if (user && result.isConfirmed) {
+          Swal.fire({
+            title: "Todo removed with success",
+            background: "#111827",
+            icon: "success",
+            confirmButtonColor: "#BA2092",
+            confirmButtonText: "OK !",
+            color: "white",
+          });
+          deleteTodoByIdFetch.executeFetch().then(() => {
+            getTodosByEmailFetch.executeFetch();
+            getSharedTodosFetch.executeFetch();
+          });
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
+    }
+    setModalOpen(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [todoId, modalOpen]);
+
+  React.useEffect(() => {
+    if (todoAlert) {
+      setTimeout(() => {
+        setTodoAlert(false);
+      }, 2000);
+    }
+  }, [todoAlert]);
+
+  const handleAddTodo = () => {
+    const isTodoNameValid = (todoName: string) => {
+      return todoNameRegex.test(todoName);
+    };
+
+    const todoNameRegex = /^(\S+)/;
+
+    if (user && !isTodoNameValid(todoName)) {
+      Swal.fire("Todo title can't be null", "", "error");
+    } else {
+      postTodoFetch.executeFetch().then(() => {
+        getTodosByEmailFetch.executeFetch();
+        getSharedTodosFetch.executeFetch();
+        resetTodoState();
+      });
+      setTodoAlert(true);
+    }
+  };
+
+  const dispatch = useGlobalDispatch();
+
+  const resetTodoState = () => {
+    setTodoName("");
+    setTodoDescription("");
+    setTodoIsImportant(false);
+
+    dispatch({
+      type: "REMOVE_FAVORITE",
+      payload: "",
+    });
+  };
+
+  const handleAddEmailToArray = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      setEmailWrongAlert(true);
+      setTimeout(() => {
+        setEmailWrongAlert(false);
+      }, 2500);
+    }
+
+    setTodoShareWith([...todoShareWith, email]);
+    setSharedWithEmail("");
+  };
+
+  const handleShareWithEmail = (sharedWithEmail: string) => {
+    setSharedWithEmail(sharedWithEmail);
   };
 
   return (
@@ -62,22 +237,39 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
             <label htmlFor="todo" className="me-2 text-sm">
               Todo
             </label>
-            <input
-              onChange={onToDoNameChange}
-              type="text"
-              placeholder=""
-              className="input mb-5 w-full text-sm bg-slate-700"
-            />
-
+            <div className="relative mb-5 flex items-center">
+              <input
+                value={todoName}
+                onChange={handleTodoName}
+                type="text"
+                placeholder=""
+                className="input w-full text-sm bg-slate-700"
+              />
+              <span
+                onClick={() => setTodoName("")}
+                className="absolute btn btn-ghost btn-sm right-3"
+              >
+                <XMarkIcon className="w-6 text-slate-500" />
+              </span>
+            </div>
             <label htmlFor="todo" className="me-2">
               Description
             </label>
-            <input
-              onChange={onTodoDescriptionChange}
-              type="text"
-              placeholder=""
-              className="input mb-5 w-full bg-slate-700"
-            />
+            <div className="relative mb-5 flex items-center">
+              <input
+                value={todoDescription}
+                onChange={handleTodoDescription}
+                type="text"
+                placeholder=""
+                className="input w-full text-sm bg-slate-700"
+              />
+              <span
+                onClick={() => setTodoDescription("")}
+                className="absolute btn btn-ghost btn-sm right-3"
+              >
+                <XMarkIcon className="w-6 text-slate-500" />
+              </span>
+            </div>
 
             <div className="flex w-full">
               <label htmlFor="todo" className="me-2">
@@ -85,20 +277,32 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
               </label>
             </div>
             <div className="flex w-full">
-              <div className="items-center flex w-full">
+              <div className="items-center relative flex w-full">
                 <input
                   disabled={isFavoritesUsers}
                   autoComplete="on"
-                  value={sharedValue}
-                  onChange={onTodoShareWithChange}
+                  value={todoShareWith}
+                  onChange={handleTodoSharedWith}
                   type="email"
                   placeholder=""
                   className="input w-full text-sm bg-slate-700"
                 />
+                <span
+                  onClick={() => setTodoShareWith([""])}
+                  className="absolute btn btn-ghost btn-sm right-3"
+                >
+                  <XMarkIcon className="w-6 text-slate-500" />
+                </span>
               </div>
               <button
                 disabled={isFavoritesUsers}
-                onClick={addShared}
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                  event.preventDefault();
+                  handleAddEmailToArray(
+                    favoriteValue ? favoriteValue : sharedWithEmail
+                  );
+                  setSharedWithEmail("");
+                }}
                 className="btn ms-4 btn-primary"
               >
                 Share
@@ -158,8 +362,8 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({
 
             <div className="flex w-full mt-5 items-center">
               <Switch
-                value={switchValue}
-                onChange={onTodoIsImportantChange}
+                value={todoIsImportant}
+                onChange={handleTodoIsImportant}
                 onClick={() => switchOnClick(!switchValue)}
               />
               <span

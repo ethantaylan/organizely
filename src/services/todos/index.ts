@@ -71,7 +71,13 @@ export const deleteTodoById = (id: number): AxiosRequestConfig => ({
   },
 });
 
-export const patchTodo = (todoId: number, todoName: string): AxiosRequestConfig => ({
+export const patchTodo = (
+  todoId: number,
+  todoName: string,
+  todoDescription: string,
+  todoIsImportant: boolean | null,
+  sharedWith: string[]
+): AxiosRequestConfig => ({
   url: `${SUPABASE_URL}/rest/v1/todos`,
   method: "PATCH",
   params: {
@@ -82,6 +88,10 @@ export const patchTodo = (todoId: number, todoName: string): AxiosRequestConfig 
     apikey: SUPABASE_ANONKEY,
   },
   data: {
+    id: todoId,
     todo: todoName,
+    description: todoDescription,
+    is_important: todoIsImportant,
+    authorized_users: sharedWith
   },
 });

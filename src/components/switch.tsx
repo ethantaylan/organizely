@@ -1,9 +1,9 @@
 import React from "react";
 
 export interface SwitchProps {
-  value: boolean;
+  value: boolean | null;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const Switch: React.FC<SwitchProps> = ({ value, onChange, onClick }) => {
@@ -14,7 +14,7 @@ export const Switch: React.FC<SwitchProps> = ({ value, onChange, onClick }) => {
           onChange={onChange}
           type="checkbox"
           className="toggle toggle-secondary"
-          checked={value}
+          checked={value || false}
         />
       </label>
     </div>

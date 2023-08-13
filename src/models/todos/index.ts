@@ -1,5 +1,5 @@
 export interface Todos {
-  authorized_users: string;
+  authorized_users: string[];
   author: string;
   id: number;
   todo: string;
