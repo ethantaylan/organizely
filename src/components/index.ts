@@ -2,6 +2,7 @@ declare global {
   interface Window {
     newTodoModal: DaisyUIModals;
     newFavoriteUserModal: DaisyUIModals
+    modalDetail: DaisyUIModals
   }
 }
 

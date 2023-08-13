@@ -3,17 +3,15 @@ import React from "react";
 import Swal from "sweetalert2";
 import { Alert } from "../components/alert";
 import { AppLayout } from "../components/layout/layout";
+import { ModalDetail } from "../components/modal-detail";
 import { NewTodoModal } from "../components/new-todo-modal";
 import { TodosList } from "../components/todos-list";
-import { useGlobalContext, useGlobalDispatch } from "../context/context";
 import { useAxios } from "../hooks/use-axios";
-import { Todos } from "../models";
-import { getFavoritesByEmail } from "../services/favorites";
+import { Todos } from "../models/todos";
 import {
   deleteTodoById,
   getSharedTodos,
   getTodosByEmail,
-  postTodo,
 } from "../services/todos";
 
 export const Tasks: React.FC = () => {
@@ -21,69 +19,29 @@ export const Tasks: React.FC = () => {
 
   const [todos, setTodos] = React.useState<Todos[]>([]);
   const [sharedTodos, setSharedTodos] = React.useState<Todos[]>([]);
-  const [isImportant, setIsImportant] = React.useState<boolean>(false);
-  const [todoName, setTodoName] = React.useState<string>("");
-  const [todoDescription, setTodoDescription] = React.useState<string>("");
-  const [todoIsImportant, setTodoIsImportant] = React.useState<boolean>(false);
-  const [todoShareWith, setTodoShareWith] = React.useState<string[]>([]);
-  const [sharedWithEmail, setSharedWithEmail] = React.useState<string>("");
-  const [showEmailWrongAlert, setEmailWrongAlert] =
-    React.useState<boolean>(false);
-  const [todoId, setTodoId] = React.useState<number>();
   const [todoAlert, setTodoAlert] = React.useState<boolean>(false);
-  const [favorites, setFavorites] = React.useState<[]>([]);
+  const [todoId, setTodoId] = React.useState<number | null>(null);
+  const [todoName, setTodoName] = React.useState<string>("");
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
-
-  const { favoriteValue } = useGlobalContext();
-
-  const postTodoFetch = useAxios(
-    postTodo(
-      todoName,
-      todoDescription,
-      todoIsImportant,
-      user?.email || "",
-      favoriteValue ? [favoriteValue] : todoShareWith || []
-    ),
-    false
-  );
 
   const getTodosByEmailFetch = useAxios<Todos[]>(
     getTodosByEmail(user?.email || ""),
     false
   );
-
+  const getSharedTodosFetch = useAxios<Todos[]>(
+    getSharedTodos(user?.email || ""),
+    false
+  );
   const deleteTodoByIdFetch = useAxios<Todos>(
     deleteTodoById(todoId || 0),
     false
   );
 
-  const getSharedTodosFetch = useAxios<Todos[]>(
-    getSharedTodos(user?.email || ""),
-    false
-  );
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const getFavoritesByEmailFetch = useAxios<any>(
-    getFavoritesByEmail(user?.email || ""),
-    false
-  );
-
   React.useEffect(() => {
-    if (user) {
-      getFavoritesByEmailFetch.executeFetch();
-    }
-  }, [user]);
-
-  React.useEffect(() => {
-    if (getFavoritesByEmailFetch.response) {
-      setFavorites(
-        getFavoritesByEmailFetch?.response?.map(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (fav: any) => fav.favorites
-        )
-      );
-    }
-  }, [getFavoritesByEmailFetch.response]);
+    getTodosByEmailFetch.response && setTodos(getTodosByEmailFetch.response);
+    getSharedTodosFetch.response &&
+      setSharedTodos(getSharedTodosFetch.response);
+  }, [getTodosByEmailFetch.response, getSharedTodosFetch.response]);
 
   React.useEffect(() => {
     if (user) {
@@ -92,12 +50,6 @@ export const Tasks: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
-
-  React.useEffect(() => {
-    getTodosByEmailFetch.response && setTodos(getTodosByEmailFetch.response);
-    getSharedTodosFetch.response &&
-      setSharedTodos(getSharedTodosFetch.response);
-  }, [getTodosByEmailFetch.response, getSharedTodosFetch.response]);
 
   React.useEffect(() => {
     if (todoId) {
@@ -126,7 +78,14 @@ export const Tasks: React.FC = () => {
             getSharedTodosFetch.executeFetch();
           });
         } else if (result.isDenied) {
-          Swal.fire("Changes are not saved", "", "info");
+          Swal.fire({
+            title: "Changes are not saved",
+            background: "#111827",
+            icon: "info",
+            confirmButtonColor: "#BA2092",
+            confirmButtonText: "OK !",
+            color: "white",
+          });
         }
       });
     }
@@ -135,78 +94,12 @@ export const Tasks: React.FC = () => {
   }, [todoId, modalOpen]);
 
   React.useEffect(() => {
-    if (todoAlert) {
+    if (todoAlert === true) {
       setTimeout(() => {
         setTodoAlert(false);
-      }, 2000);
-    }
-  }, [todoAlert]);
-
-  const handleAddTodo = () => {
-    const isTodoNameValid = (todoName: string) => {
-      return todoNameRegex.test(todoName);
-    };
-
-    const todoNameRegex = /^(\S+)/;
-
-    if (user && !isTodoNameValid(todoName)) {
-      Swal.fire("Todo title can't be null", "", "error");
-    } else {
-      postTodoFetch.executeFetch().then(() => {
-        getTodosByEmailFetch.executeFetch();
-        getSharedTodosFetch.executeFetch();
-      });
-      resetTodoState();
-      setTodoAlert(true);
-    }
-  };
-
-  const handleModalClose = () => {
-    resetTodoState();
-  };
-
-  const dispatch = useGlobalDispatch();
-
-  const resetTodoState = () => {
-    setTodoName("");
-    setTodoDescription("");
-    setTodoIsImportant(false);
-
-    dispatch({
-      type: "REMOVE_FAVORITE",
-      payload: "",
-    });
-  };
-
-  const handleTodoNameChange = (todoName: string) => {
-    setTodoName(todoName);
-  };
-
-  const handleTodoDescriptionChange = (todoDescription: string) => {
-    setTodoDescription(todoDescription);
-  };
-
-  const handleTodoIsImportantChange = () => {
-    setTodoIsImportant((prevIsImportant) => !prevIsImportant);
-  };
-
-  const handleAddEmailToArray = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(email)) {
-      setEmailWrongAlert(true);
-      setTimeout(() => {
-        setEmailWrongAlert(false);
       }, 2500);
     }
-
-    setTodoShareWith([...todoShareWith, email]);
-    setSharedWithEmail("");
-  };
-
-  const handleShareWithEmail = (sharedWithEmail: string) => {
-    setSharedWithEmail(sharedWithEmail);
-  };
+  }, [todoAlert]);
 
   return (
     <AppLayout>
@@ -216,35 +109,31 @@ export const Tasks: React.FC = () => {
           className="alert alert-success"
         />
       )}
-
-      <NewTodoModal
-        onConfirm={handleAddTodo}
-        onToDoNameChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          handleTodoNameChange(event.target.value)
-        }
-        onTodoDescriptionChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          handleTodoDescriptionChange(event.target.value)
-        }
-        onTodoIsImportantChange={handleTodoIsImportantChange}
-        switchValue={isImportant}
-        switchOnClick={() => setIsImportant(!isImportant)}
-        onClose={handleModalClose}
-        onTodoShareWithChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          handleShareWithEmail(event.target.value)
-        }
-        sharedValue={sharedWithEmail}
-        addShared={() => {
-          handleAddEmailToArray(
-            favoriteValue ? favoriteValue : sharedWithEmail
-          );
-          setSharedWithEmail("");
+      <div
+        style={{
+          // backgroundImage: `url(${HeroBg})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPositionY: "25%",
+          height: 150,
         }}
-        sharedEmails={todoShareWith}
-        showAlert={showEmailWrongAlert}
-        favorites={favorites}
+        className="flex  border-slate-800 border flex-col p-10 justify-center items-center rounded-xl mt-5"
+      >
+        <h1 className="text-xl text-center drop-shadow-xl text-slate-200 font-semibold">
+          <q>Focus on being productive instead of busy.</q>
+        </h1>
+        <p className="mt-3">Tim Ferriss</p>
+      </div>{" "}
+      <NewTodoModal
+        onPostTodo={() => {
+          getTodosByEmailFetch.executeFetch();
+          getSharedTodosFetch.executeFetch();
+          setTodoAlert(true);
+        }}
       />
+      <ModalDetail />
       <div className="mt-5">
-        <div className="flex mt-10 items-end justify-between">
+        <div className="flex mt-10 items-center justify-between">
           <p>
             {todos.length === 0 ? (
               <>
@@ -258,9 +147,9 @@ export const Tasks: React.FC = () => {
           <p className="rounded">
             <button
               onClick={() => window.newTodoModal.showModal()}
-              className="btn btn-secondary btn-xs px-3 text-md rounded"
+              className="btn btn-secondary hover:bg-opacity-50 bg-opacity-25"
             >
-              Create new todo
+              New todo
             </button>
           </p>
         </div>

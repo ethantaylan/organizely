@@ -34,6 +34,18 @@ export const getTodosByEmail = (email: string): AxiosRequestConfig => ({
   },
 });
 
+export const getTodoById = (id: number | null): AxiosRequestConfig => ({
+  url: `${SUPABASE_URL}/rest/v1/todos`,
+  method: "GET",
+  params: {
+    id: `eq.${id}`,
+    select: "*",
+  },
+  headers: {
+    apikey: SUPABASE_ANONKEY,
+  },
+});
+
 export const getSharedTodos = (email: string): AxiosRequestConfig => ({
   url: `${SUPABASE_URL}/rest/v1/todos`,
   method: "GET",
@@ -56,5 +68,30 @@ export const deleteTodoById = (id: number): AxiosRequestConfig => ({
   },
   headers: {
     apikey: SUPABASE_ANONKEY,
+  },
+});
+
+export const patchTodo = (
+  todoId: number,
+  todoName: string,
+  todoDescription: string,
+  todoIsImportant: boolean | null,
+  sharedWith: string[]
+): AxiosRequestConfig => ({
+  url: `${SUPABASE_URL}/rest/v1/todos`,
+  method: "PATCH",
+  params: {
+    select: "*",
+    id: `eq.${todoId}`,
+  },
+  headers: {
+    apikey: SUPABASE_ANONKEY,
+  },
+  data: {
+    id: todoId,
+    todo: todoName,
+    description: todoDescription,
+    is_important: todoIsImportant,
+    authorized_users: sharedWith
   },
 });
