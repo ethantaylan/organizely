@@ -1,27 +1,34 @@
-import { NewspaperIcon } from "@heroicons/react/24/solid";
+import {
+  InformationCircleIcon,
+  NewspaperIcon,
+} from "@heroicons/react/24/solid";
 import React from "react";
-import { Alert } from "../components/alert";
-import { Card } from "../components/card";
+import { NewFeatureCard } from "../components/card";
 import { Hero } from "../components/layout/hero";
 import { AppLayout } from "../components/layout/layout";
 
 export const Home: React.FC = () => {
-  const [alert, setAlert] = React.useState<boolean>(true);
+  // const [alert, setAlert] = React.useState<boolean>(true);
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setAlert(false);
-    }, 4500);
-  }, [alert]);
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     setAlert(false);
+  //   }, 4500);
+  // }, [alert]);
 
   return (
     <AppLayout>
-      {alert && (
+      {/* {alert && (
         <Alert
           title="Organizely is optimized for mobile devices, desktop version is under construct."
-          className="alert my-2 text-white w-auto bg-secondary bg-opacity-10 border-secondary border-opacity-50 right-9 top-20"
+          className="alert my-2 text-white w-auto bg-primary bg-opacity-10 border-opacity-50 right-9 top-20"
         />
-      )}
+      )} */}
+
+      <div className="flex badge">
+        <InformationCircleIcon className="w-4 me-1" />
+        <p className="text-sm">Only mobile version is available</p>
+      </div>
 
       <Hero />
 
@@ -32,13 +39,13 @@ export const Home: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap w-full">
-          <Card
+          <NewFeatureCard
             title="Get faster with Favorite users !"
             content="When creating a new todo, you can now quickly add a user by only selecting one"
             btnLabel="See"
           />
 
-          <Card
+          <NewFeatureCard
             title="Share your todos !"
             content="You can now share your todos with emails"
             btnLabel="See"

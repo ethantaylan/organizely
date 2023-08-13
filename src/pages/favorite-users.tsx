@@ -118,14 +118,14 @@ export const FavoriteUsers: React.FC = () => {
         }
       />
       <div className="badge">Page under construction</div>
-      <h1 className="text-2xl my-16 text-center text-white  bg-opacity-10 p-5 rounded-xl font-bold">
+      <h1 className="text-2xl my-16 text-center text-white font-bold">
         Add a new favorite user to share your todos faster !
       </h1>
       <div className="w-full mt-10 mb-5 items-center flex justify-between">
-        <h2 className="text-white font-bold">My favorite users: </h2>
+        <p className="text-xl font-bold">Your favorite users</p>
         <button
           onClick={() => window.newFavoriteUserModal.showModal()}
-          className="btn btn-xs btn-secondary"
+          className="rounded-lg btn-secondary px-4 py-2 font-semibold"
         >
           Add new favorite user
         </button>
@@ -136,7 +136,7 @@ export const FavoriteUsers: React.FC = () => {
           response?.map((favUser: any, index: number) => (
             <div className="flex flex-col">
               <div
-                className="mb-2 flex items-center justify-between bg-slate-800 px-6 py-1.5 rounded-xl font-semibold text-sm"
+                className="mb-2 flex items-center justify-between bg-slate-900 px-6 py-1.5 rounded-xl font-semibold text-sm"
                 key={index}
               >
                 <span>{favUser.favorites.toUpperCase()}</span>
@@ -146,7 +146,7 @@ export const FavoriteUsers: React.FC = () => {
                     setEmailFavorite(favUser.favorites);
                     setModalOpen(true);
                   }}
-                  className="btn bg-slate-700 border-0"
+                  className="btn bg-slate-800 hover:bg-slate-700 border-0"
                 >
                   <XCircleIcon className="w-6 cursor-pointer text-red-600" />
                 </span>
@@ -154,8 +154,6 @@ export const FavoriteUsers: React.FC = () => {
             </div>
           ))
         : "You do not have favorite users :("}
-      {/* <label htmlFor=""></label>
-      <input className="input"></input> */}
     </AppLayout>
   );
 };

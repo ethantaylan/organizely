@@ -1,6 +1,6 @@
 import React from "react";
 
-export interface CardProps {
+export interface NewFeatureCardProps {
   title: string;
   content: string;
   btnLabel: string;
@@ -8,7 +8,7 @@ export interface CardProps {
   className?: string;
 }
 
-export const Card: React.FC<CardProps> = ({
+export const NewFeatureCard: React.FC<NewFeatureCardProps> = ({
   title,
   content,
   btnLabel,
@@ -17,11 +17,11 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div
-      className={`${className} w-full sm:h-auto card mt-5 border-opacity-40 bg-secondary bg-opacity-10 border-secondary border text-primary-content`}
+      className={`${className} w-full sm:h-auto mt-5 bg-neutral-900 rounded-xl text-primary-content`}
     >
       <div className="card-body flex">
         <h2 className="card-title font-bold text-secondary">{title}</h2>
-        <p className="text-white">{content}</p>
+        <p className="text-slate-300">{content}</p>
         {withButton && (
           <div className="card-actions justify-end">
             <button className="btn">{btnLabel}</button>

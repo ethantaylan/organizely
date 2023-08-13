@@ -10,7 +10,7 @@ export const Header: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="navbar flex justify-between p-0 text-primary-content">
+    <div className="navbar bg-slate-900 rounded-xl mb-5 flex justify-between text-primary-content">
       <div className="flex p-0 btn btn-ghost">
         <NavLink
           className="relative font-bold p-0 text-white normal-case text-xl"
@@ -33,16 +33,16 @@ export const Header: React.FC = () => {
           <span className="me-2 font-bold text-secondary">
             {user.given_name}
           </span>
-          <div className="dropdown dropdown-end">
+          <div className="dropdown bg-slate-800 rounded-xl dropdown-end">
             <label tabIndex={0} className="btn flex btn-ghost avatar">
-              <div className="w-10 border-2 border-secondary border-opacity-50 rounded-full">
+              <div className="w-8 border-secondary border-opacity-50 rounded-full">
                 <img src={user?.picture} />
               </div>
               <ChevronDownIcon className="h-5 text-white" />
             </label>
             <ul
               tabIndex={0}
-              className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-slate-800 rounded-box w-52"
             >
               <li>
                 <span

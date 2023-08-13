@@ -6,4 +6,5 @@ export interface Todos {
   description?: string;
   is_important: boolean;
   is_shared: boolean;
+  favorites: string;
 }

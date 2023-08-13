@@ -7,9 +7,7 @@ import { getTodoById, patchTodo } from "../services/todos";
 import { AppLayout } from "./layout/layout";
 import { Switch } from "./switch";
 
-export interface TaskDetailProps {}
-
-export const TaskDetail: React.FC<TaskDetailProps> = () => {
+export const TaskDetail: React.FC = () => {
   const [todo, setTodo] = React.useState<Todos | undefined>(undefined);
   const [editedTodoName, setEditedTodoName] = React.useState<string>("");
   const [editedTodoIsImportant, setEditedTodoIsImportant] = React.useState<
