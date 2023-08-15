@@ -8,23 +8,8 @@ import { Hero } from "../components/layout/hero";
 import { AppLayout } from "../components/layout/layout";
 
 export const Home: React.FC = () => {
-  // const [alert, setAlert] = React.useState<boolean>(true);
-
-  // React.useEffect(() => {
-  //   setTimeout(() => {
-  //     setAlert(false);
-  //   }, 4500);
-  // }, [alert]);
-
   return (
     <AppLayout>
-      {/* {alert && (
-        <Alert
-          title="Organizely is optimized for mobile devices, desktop version is under construct."
-          className="alert my-2 text-slate-300 w-auto bg-primary bg-opacity-10 border-opacity-50 right-9 top-20"
-        />
-      )} */}
-
       <div className="flex p-2 bg-slate-900 badge">
         <InformationCircleIcon className="w-4 me-1" />
         <p className="text-sm font-semibold">Optimized for mobile devices</p>
@@ -39,6 +24,12 @@ export const Home: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap w-full">
+          <NewFeatureCard
+            title="Shared users are now notificated"
+            content="The user with who you shared your todos is now notificated by email"
+            btnLabel="See"
+          />
+
           <NewFeatureCard
             title="Get faster with Favorite users !"
             content="When creating a new todo, you can now quickly add a user by only selecting one"

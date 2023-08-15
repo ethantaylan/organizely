@@ -7,8 +7,9 @@ import Swal from "sweetalert2";
 import { useGlobalDispatch } from "../context/context";
 import { useAxios } from "../hooks/use-axios";
 import { Todos } from "../models/todos";
-import { getFavoritesByEmail } from "../services/favorites";
-import { postTodo } from "../services/todos";
+import { sendEmailToUser } from "../services/emailJS";
+import { getFavoritesByEmail } from "../services/supabase/favorites";
+import { postTodo } from "../services/supabase/todos";
 import { Switch } from "./switch";
 
 export interface NewTodoModalProps {
@@ -29,6 +30,16 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
 
   const { user } = useAuth0();
   const dispatch = useGlobalDispatch();
+
+  const sendEmailToUserFetch = useAxios(
+    sendEmailToUser(
+      user?.email || "",
+      user?.name || user?.given_name || "",
+      todoName,
+      todoDescription
+    ),
+    false
+  );
 
   const postTodoFetch = useAxios(
     postTodo(
@@ -66,12 +77,6 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
   ) => {
     setTodoDescription(event.target.value);
   };
-
-  // const handleTodoIsImportant = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   setTodoIsImportant(!event.target.value);
-  // };
 
   const resetTodoState = () => {
     setTodoName("");
@@ -124,6 +129,9 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
       postTodoFetch.executeFetch().then(() => {
         onPostTodo();
         resetTodoState();
+        if (todoShareWith.length > 0) {
+          sendEmailToUserFetch.executeFetch();
+        }
       });
       setTodoAlert(true);
     }

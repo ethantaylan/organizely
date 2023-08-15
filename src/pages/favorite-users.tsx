@@ -9,7 +9,7 @@ import {
   deleteFavoriteUserById,
   getFavoritesByEmail,
   postFavoriteUSer,
-} from "../services/favorites";
+} from "../services/supabase/favorites";
 
 export const FavoriteUsers: React.FC = () => {
   const [idFavorite, setIdFavorite] = React.useState<number | null>(null);

@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from "axios";
-import { SUPABASE_ANONKEY, SUPABASE_URL } from "../../config";
+import { SUPABASE_ANONKEY, SUPABASE_URL } from "../../../config";
 
 export const getFavoritesByEmail = (email: string): AxiosRequestConfig => ({
   url: `${SUPABASE_URL}/rest/v1/favorites`,

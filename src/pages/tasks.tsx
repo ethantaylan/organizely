@@ -12,7 +12,7 @@ import {
   deleteTodoById,
   getSharedTodos,
   getTodosByEmail,
-} from "../services/todos";
+} from "../services/supabase/todos";
 
 export const Tasks: React.FC = () => {
   const { user } = useAuth0();

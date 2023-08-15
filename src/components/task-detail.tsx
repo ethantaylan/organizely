@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useAxios } from "../hooks/use-axios";
 import { Todos } from "../models/todos";
-import { getTodoById, patchTodo } from "../services/todos";
+import { getTodoById, patchTodo } from "../services/supabase/todos";
 import { AppLayout } from "./layout/layout";
 import { Switch } from "./switch";
 

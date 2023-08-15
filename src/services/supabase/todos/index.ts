@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from "axios";
-import { SUPABASE_ANONKEY, SUPABASE_URL } from "../../config";
+import { SUPABASE_ANONKEY, SUPABASE_URL } from "../../../config";
 
 export const postTodo = (
   todoName: string,
@@ -92,6 +92,6 @@ export const patchTodo = (
     todo: todoName,
     description: todoDescription,
     is_important: todoIsImportant,
-    authorized_users: sharedWith
+    authorized_users: sharedWith,
   },
 });
