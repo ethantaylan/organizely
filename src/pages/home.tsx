@@ -25,20 +25,20 @@ export const Home: React.FC = () => {
 
         <div className="flex flex-wrap w-full">
           <NewFeatureCard
-            title="Shared users are now notificated"
-            content="The user with who you shared your todos is now notificated by email"
+            title="Shared users are now notified"
+            content="When you share a to-do list with someone, they will now receive an email notification. This way, they will be aware of the list and can easily access it."
             btnLabel="See"
           />
 
           <NewFeatureCard
             title="Get faster with Favorite users !"
-            content="When creating a new todo, you can now quickly add a user by only selecting one"
+            content="When creating a new todo, you can now quickly add a user by only selecting one."
             btnLabel="See"
           />
 
           <NewFeatureCard
             title="Share your todos !"
-            content="You can now share your todos with emails"
+            content="You can now share your todos with emails."
             btnLabel="See"
           />
         </div>
