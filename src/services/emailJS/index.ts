@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 
 export const sendEmailToUser = (
-  userEmail: string,
+  userEmail: string[],
   userName: string,
   todoName: string,
   todoDescription: string

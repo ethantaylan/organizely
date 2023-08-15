@@ -33,7 +33,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
 
   const sendEmailToUserFetch = useAxios(
     sendEmailToUser(
-      user?.email || "",
+      todoShareWith,
       user?.name || user?.given_name || "",
       todoName,
       todoDescription
