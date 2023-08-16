@@ -47,7 +47,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
       todoDescription,
       todoIsImportant,
       user?.email || "",
-      todoShareWith
+      todoShareWith.length === 0 ? [sharedWithEmail] : todoShareWith
     ),
     false
   );
@@ -227,7 +227,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
                   className="input w-full text-sm bg-slate-700"
                 />
                 <span
-                  onClick={() => setTodoShareWith([""])}
+                  onClick={() => setSharedWithEmail("")}
                   className="absolute btn btn-ghost btn-sm right-3"
                 >
                   <XMarkIcon className="w-5 text-slate-500" />
@@ -251,12 +251,21 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
               </p>
             )}
             {todoShareWith.length > 0 && (
-              <p className="text-warning flex mt-2 text-sm">
-                This todo wil be shared with:
-              </p>
+              <div className="flex mt-2 items-center">
+                <p className="text-warning flex text-sm">
+                  This todo wil be shared with:
+                </p>
+
+                <span
+                  onClick={() => setTodoShareWith([])}
+                  className=" cursor-pointer text-sm ms-5"
+                >
+                  RESET
+                </span>
+              </div>
             )}
             {todoShareWith.map((shared) => (
-              <div className="flex w-auto rounded-xl">
+              <div className="flex justify-between items-center w-auto rounded-xl">
                 <span className="text-warning font-semibold flex">
                   {shared}
                 </span>

@@ -7,7 +7,7 @@ export interface TodosProps {
   isImportant: boolean;
   description?: string;
   isShared: boolean;
-  sharedPeoples?: string[];
+  sharedPeoples?: string;
   todoId: number;
   onClick: () => void;
 }
@@ -24,12 +24,6 @@ export const TodosList: React.FC<TodosProps> = ({
   const navigate = useNavigate();
 
   const menuItems: MenuItemsProps[] = [
-    // {
-    //   name: "Done",
-    //   isDeleteBtn: false,
-    //   isDoneBtn: false,
-    //   onClick: onClick,
-    // },
     {
       name: "Edit",
       isDeleteBtn: false,
@@ -58,27 +52,26 @@ export const TodosList: React.FC<TodosProps> = ({
                   </h2>
                 )}
               </h2>
-              {description && (
-                <p
-                  style={{}}
-                  className="text-slate-400 text-sm mt-2 break-words"
-                >
-                  {description}
-                </p>
-              )}
+              <p
+                className={` ${
+                  description ? "not-italic text-slate-400" : "italic text-slate-500"
+                } text-sm mt-2 break-words`}
+              >
+                {description ? description : "No description"}
+              </p>
             </div>
           </div>
 
           <Menu items={menuItems} />
         </div>
         {isShared && (
-          <span
+          <div
             style={{ fontSize: 11 }}
-            className="mt-4 flex font-semibold text-sm text-yellow-500"
+            className="mt-4 flex-col flex font-semibold text-sm text-yellow-500"
           >
-            Shared by:
-            {sharedPeoples}
-          </span>
+            <p>Shared by:</p>
+            <p>{sharedPeoples}</p>
+          </div>
         )}
       </div>
     </React.Fragment>

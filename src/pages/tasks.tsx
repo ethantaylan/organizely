@@ -111,7 +111,6 @@ export const Tasks: React.FC = () => {
       )}
       <div
         style={{
-          // backgroundImage: `url(${HeroBg})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPositionY: "25%",
@@ -191,7 +190,7 @@ export const Tasks: React.FC = () => {
             isImportant={todo.is_important}
             description={todo.description}
             isShared={true}
-            sharedPeoples={sharedTodos.map((name) => name.author)}
+            sharedPeoples={todo.author}
             todoId={todo.id}
           />
         ))}
