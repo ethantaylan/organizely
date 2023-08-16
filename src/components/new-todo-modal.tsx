@@ -36,11 +36,17 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
       todoShareWith.length === 0 ? [sharedWithEmail] : todoShareWith,
       user?.name || user?.given_name || "",
       todoName,
-      todoDescription ? todoDescription : 'No description',
+      todoDescription ? todoDescription : "No description",
       user?.name || user?.given_name || null
     ),
     false
   );
+
+  React.useEffect(() => {
+    if (selectedFavorite) {
+      setSharedWithEmail(selectedFavorite);
+    }
+  }, [selectedFavorite]);
 
   const postTodoFetch = useAxios(
     postTodo(
