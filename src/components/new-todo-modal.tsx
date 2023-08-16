@@ -33,10 +33,11 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
 
   const sendEmailToUserFetch = useAxios(
     sendEmailToUser(
-      todoShareWith,
+      todoShareWith.length === 0 ? [sharedWithEmail] : todoShareWith,
       user?.name || user?.given_name || "",
       todoName,
-      todoDescription
+      todoDescription ? todoDescription : 'No description',
+      user?.name || user?.given_name || null
     ),
     false
   );
@@ -126,12 +127,14 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
         color: "white",
       });
     } else {
+      if (todoShareWith.length > 0 || [sharedWithEmail.length > 0]) {
+        sendEmailToUserFetch.executeFetch();
+      }
+      console.log(todoShareWith.length, [sharedWithEmail.length]);
+
       postTodoFetch.executeFetch().then(() => {
         onPostTodo();
         resetTodoState();
-        if (todoShareWith.length > 0) {
-          sendEmailToUserFetch.executeFetch();
-        }
       });
       setTodoAlert(true);
     }
@@ -241,7 +244,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
                 }}
                 className="btn ms-4 btn-primary"
               >
-                Share
+                ADD MORE
               </button>
             </div>
 
@@ -255,13 +258,6 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
                 <p className="text-warning flex text-sm">
                   This todo wil be shared with:
                 </p>
-
-                <span
-                  onClick={() => setTodoShareWith([])}
-                  className=" cursor-pointer text-sm ms-5"
-                >
-                  RESET
-                </span>
               </div>
             )}
             {todoShareWith.map((shared) => (
@@ -271,7 +267,12 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
                 </span>
               </div>
             ))}
-
+            <span
+              onClick={() => setTodoShareWith([])}
+              className="cursor-pointer font-semibold text-sm"
+            >
+              Reset shared users
+            </span>
             <div className="flex mt-5">
               <select
                 value={selectedFavorite}

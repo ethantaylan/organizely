@@ -4,7 +4,8 @@ export const sendEmailToUser = (
   userEmail: string[],
   userName: string,
   todoName: string,
-  todoDescription: string
+  todoDescription: string,
+  sender: string | null
 ): AxiosRequestConfig => ({
   url: "https://api.emailjs.com/api/v1.0/email/send",
   method: "POST",
@@ -15,7 +16,7 @@ export const sendEmailToUser = (
     template_params: {
       to_name: userName,
       "g-recaptcha-response": "03AHJ_ASjnLA214KSNKFJAK12sfKASfehbmfd...",
-      from_name: "Organizely Todo App",
+      from_name: sender,
       todo_title: todoName,
       todo_description: todoDescription,
       to: userEmail,
