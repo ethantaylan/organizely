@@ -1,8 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import LoginButton from "../../../auth0/login-button";
+import LoginButton from "../../../components/auth0/login-button";
 
 export const Header: React.FC = () => {
   const { user, logout } = useAuth0();
@@ -17,7 +16,10 @@ export const Header: React.FC = () => {
           to="/"
         >
           ✌Organizely
-          <span style={{ fontSize: 10 }} className="font-bold badge -right-12">
+          <span
+            style={{ fontSize: 10 }}
+            className="font-bold absolute text-secondary -right-7"
+          >
             BETA
           </span>
         </NavLink>
@@ -26,23 +28,16 @@ export const Header: React.FC = () => {
         <LoginButton />
       ) : (
         <div className="flex-none rounded-2xl bg-opacity">
-          {/* <NavLink className="m-5" to="/favorite-users">
-            Favorite Users
-          </NavLink>
-          <NavLink to="/tasks">My Todos</NavLink> */}
-          <span className="me-2 font-bold text-secondary">
-            {user.given_name}
-          </span>
           <div className="dropdown bg-slate-800 rounded-xl dropdown-end">
             <label tabIndex={0} className="btn flex btn-ghost avatar">
               <div className="w-8 border-secondary border-opacity-50 rounded-full">
                 <img src={user?.picture} />
               </div>
-              <ChevronDownIcon className="h-5 text-slate-300" />
+              <span className="text-slate-400">MENU</span>
             </label>
             <ul
               tabIndex={0}
-              className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-slate-800 rounded-box w-52"
+              className="menu dropdown-content font-semibold mt-3 z-[1] p-2 shadow bg-slate-800 rounded-box w-52"
             >
               <li>
                 <span

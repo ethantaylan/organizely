@@ -1,12 +1,12 @@
 import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
-import { TaskDetail } from "./components/task-detail";
 import { GlobalContextProvider } from "./context/context";
 import { Guard } from "./guard/guard";
 import { FavoriteUsers } from "./pages/favorite-users";
 import { Home } from "./pages/home";
 import { Tasks } from "./pages/tasks";
+import { TodoDetail } from "./components/todo-detail";
+import "./App.css";
 
 function App() {
   return (
@@ -36,7 +36,7 @@ function App() {
                 path=":todoId"
                 element={
                   <Guard>
-                    <TaskDetail />
+                    <TodoDetail />
                   </Guard>
                 }
               />

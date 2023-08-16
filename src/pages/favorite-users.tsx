@@ -2,14 +2,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import Swal from "sweetalert2";
-import { AppLayout } from "../components/layout/layout";
-import { NewFavoriteUserModal } from "../components/new-favorite-user-modal";
+import { NewFavoriteUserModal } from "../components/modals/new-favorite-user-modal/new-favorite-user-modal";
 import { useAxios } from "../hooks/use-axios";
 import {
   deleteFavoriteUserById,
   getFavoritesByEmail,
   postFavoriteUSer,
 } from "../services/supabase/favorites";
+import { AppLayout } from "./layout/layout";
 
 export const FavoriteUsers: React.FC = () => {
   const [idFavorite, setIdFavorite] = React.useState<number | null>(null);

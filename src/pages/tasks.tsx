@@ -1,11 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 import Swal from "sweetalert2";
-import { Alert } from "../components/alert";
-import { AppLayout } from "../components/layout/layout";
-import { ModalDetail } from "../components/modal-detail";
-import { NewTodoModal } from "../components/new-todo-modal";
-import { TodosList } from "../components/todos-list";
+import { Alert } from "../components/generic-components/alert";
+import { NewTodoModal } from "../components/modals/new-todo-modal/new-todo-modal";
+import { TodoCard } from "../components/todo-card";
 import { useAxios } from "../hooks/use-axios";
 import { Todos } from "../models/todos";
 import {
@@ -13,6 +11,7 @@ import {
   getSharedTodos,
   getTodosByEmail,
 } from "../services/supabase/todos";
+import { AppLayout } from "./layout/layout";
 
 export const Tasks: React.FC = () => {
   const { user } = useAuth0();
@@ -130,19 +129,16 @@ export const Tasks: React.FC = () => {
           setTodoAlert(true);
         }}
       />
-      <ModalDetail />
       <div className="mt-5">
         <div className="flex mt-10 items-center justify-between">
-          <p>
-            {todos.length === 0 ? (
-              <>
-                <p className="text-xl font-bold">Your todos</p>
-                <p className="text-slate-500">You don't have any todos</p>
-              </>
-            ) : (
-              <p className="text-xl font-bold">My todos</p>
-            )}
-          </p>
+          {todos.length === 0 ? (
+            <div className="flex flex-col">
+              <p className="text-xl font-bold">Your todos</p>
+              <p className="text-slate-500">You don't have any todos</p>
+            </div>
+          ) : (
+            <p className="text-xl font-bold">My todos</p>
+          )}
           <p className="rounded">
             <button
               onClick={() => window.newTodoModal.showModal()}
@@ -154,7 +150,7 @@ export const Tasks: React.FC = () => {
         </div>
         {user &&
           todos.map((todo, index) => (
-            <TodosList
+            <TodoCard
               onClick={() => {
                 setTodoId(todo.id);
                 setTodoName(todo.todo);
@@ -169,18 +165,17 @@ export const Tasks: React.FC = () => {
             />
           ))}
 
-        <p>
-          {sharedTodos.length === 0 ? (
-            <div className="my-20">
-              <p className="text-xl font-bold">Shared todos with me</p>
-              <p className="text-slate-500">No shared todos :(</p>
-            </div>
-          ) : (
-            <p className="text-xl font-bold">Todos shared with me</p>
-          )}
-        </p>
+        {sharedTodos.length === 0 ? (
+          <div className="my-20">
+            <p className="text-xl font-bold">Shared todos with me</p>
+            <p className="text-slate-500">No shared todos :(</p>
+          </div>
+        ) : (
+          <p className="text-xl font-bold">Todos shared with me</p>
+        )}
+
         {sharedTodos.map((todo, index) => (
-          <TodosList
+          <TodoCard
             onClick={() => {
               setTodoId(todo.id);
               setTodoName(todo.todo);

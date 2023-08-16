@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, MenuItemsProps } from "./menu";
+import { Menu, MenuItemsProps } from "./generic-components/menu";
 
-export interface TodosProps {
+export interface TodoCardProps {
   name: string;
   isImportant: boolean;
   description?: string;
@@ -12,7 +12,7 @@ export interface TodosProps {
   onClick: () => void;
 }
 
-export const TodosList: React.FC<TodosProps> = ({
+export const TodoCard: React.FC<TodoCardProps> = ({
   name,
   isImportant,
   description,
@@ -54,7 +54,9 @@ export const TodosList: React.FC<TodosProps> = ({
               </h2>
               <p
                 className={` ${
-                  description ? "not-italic text-slate-400" : "italic text-slate-500"
+                  description
+                    ? "not-italic text-slate-400"
+                    : "italic text-slate-500"
                 } text-sm mt-2 break-words`}
               >
                 {description ? description : "No description"}

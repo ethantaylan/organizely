@@ -5,10 +5,10 @@ import Swal from "sweetalert2";
 import { useAxios } from "../hooks/use-axios";
 import { Todos } from "../models/todos";
 import { getTodoById, patchTodo } from "../services/supabase/todos";
-import { AppLayout } from "./layout/layout";
-import { Switch } from "./switch";
+import { Switch } from "./generic-components/switch";
+import { AppLayout } from "../pages/layout/layout";
 
-export const TaskDetail: React.FC = () => {
+export const TodoDetail: React.FC = () => {
   const [emailValid, setEmailValid] = React.useState<boolean>(true);
   const [todoNameValid, setTodoNameValid] = React.useState<boolean>(true);
 
