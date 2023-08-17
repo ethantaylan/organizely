@@ -223,7 +223,7 @@ export const NewTodoModal: React.FC<NewTodoModalProps> = ({ onPostTodo }) => {
               </p>
             )}
             {todoShareWith.length > 0 && (
-              <div className="flex mt-2 items-center">
+              <div className="flex items-center">
                 <p className="text-warning flex text-sm">
                   This todo wil be shared with:
                 </p>

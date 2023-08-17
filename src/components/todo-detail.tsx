@@ -4,9 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useAxios } from "../hooks/use-axios";
 import { Todos } from "../models/todos";
+import { AppLayout } from "../pages/layout/layout";
 import { getTodoById, patchTodo } from "../services/supabase/todos";
 import { Switch } from "./generic-components/switch";
-import { AppLayout } from "../pages/layout/layout";
 
 export const TodoDetail: React.FC = () => {
   const [emailValid, setEmailValid] = React.useState<boolean>(true);
@@ -222,12 +222,6 @@ export const TodoDetail: React.FC = () => {
           >
             Update
           </button>
-          {/* <button
-            onClick={updateTodoFetch.executeFetch}
-            className="btn mt-5 ms-2 w-100 text-slate-300 bg-red-500"
-          >
-            DELETE TODO
-          </button> */}
         </div>
       </div>
     </AppLayout>

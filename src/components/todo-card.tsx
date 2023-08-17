@@ -47,9 +47,9 @@ export const TodoCard: React.FC<TodoCardProps> = ({
               <h2 className="font-semibold text-slate-200">
                 {name}
                 {isImportant && (
-                  <h2 className="badge whitespace-nowrap bg-blue-600 text-slate-300 p-3 ms-4">
+                  <span className="badge badge-sm whitespace-nowrap bg-blue-600 text-slate-300 ms-2">
                     Important
-                  </h2>
+                  </span>
                 )}
               </h2>
               <p

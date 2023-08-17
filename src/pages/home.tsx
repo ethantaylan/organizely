@@ -3,45 +3,49 @@ import {
   NewspaperIcon,
 } from "@heroicons/react/24/solid";
 import React from "react";
-import { NewFeatureCard } from "../components/generic-components/card";
+import {
+  NewFeatureCard,
+  NewFeatureCardProps,
+} from "../components/generic-components/card";
 import { Hero } from "./layout/hero";
 import { AppLayout } from "./layout/layout";
 
 export const Home: React.FC = () => {
+  const features: NewFeatureCardProps[] = [
+    {
+      title: "Shared users are now notified !",
+      content:
+        "When you share a to-do with someone, they will now receive an email notification.",
+    },
+    {
+      title: "Get faster with Favorite users !",
+      content:
+        "When creating a new todo, you can now quickly add a user by only selecting one.",
+    },
+    {
+      title: "Share your todos !",
+      content: "You can now share your todos with emails.",
+    },
+  ];
+
   return (
     <AppLayout>
-      <div className="flex p-2 bg-slate-900 badge">
-        <InformationCircleIcon className="w-4 me-1" />
+      <div className="flex badge border-0 bg-slate-900">
+        <InformationCircleIcon className="w-3 me-1" />
         <p className="text-sm border-0">Optimized for mobile devices</p>
       </div>
 
       <Hero />
 
-      <div className="mt-10">
-        <div className="flex items-center">
-          <NewspaperIcon className="h-5 me-2 text-secondary" />
-          <h1 className="text-xl font-bold text-slate-300">Recent features</h1>
-        </div>
+      <div className="flex mt-10 items-center">
+        <NewspaperIcon className="h-5 me-2 text-secondary" />
+        <h1 className="text-xl font-bold text-slate-300">Recent features</h1>
+      </div>
 
-        <div className="flex flex-wrap w-full">
-          <NewFeatureCard
-            title="Shared users are now notified"
-            content="When you share a to-do list with someone, they will now receive an email notification. This way, they will be aware of the list and can easily access it."
-            btnLabel="See"
-          />
-
-          <NewFeatureCard
-            title="Get faster with Favorite users !"
-            content="When creating a new todo, you can now quickly add a user by only selecting one."
-            btnLabel="See"
-          />
-
-          <NewFeatureCard
-            title="Share your todos !"
-            content="You can now share your todos with emails."
-            btnLabel="See"
-          />
-        </div>
+      <div className="flex flex-wrap w-full">
+        {features.map((feature) => (
+          <NewFeatureCard title={feature.title} content={feature.content} />
+        ))}
       </div>
     </AppLayout>
   );

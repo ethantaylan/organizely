@@ -9,7 +9,7 @@ export const Header: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="navbar bg-slate-900 rounded-xl mb-5 flex justify-between text-primary-content">
+    <div className="navbar bg-slate-900 mb-5 rounded-xl flex justify-between text-primary-content">
       <div className="flex p-0 btn btn-ghost">
         <NavLink
           className="relative font-bold p-0 text-slate-300 normal-case text-xl"

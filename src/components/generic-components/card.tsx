@@ -3,7 +3,7 @@ import React from "react";
 export interface NewFeatureCardProps {
   title: string;
   content: string;
-  btnLabel: string;
+  btnLabel?: string;
   withButton?: boolean;
   className?: string;
 }
@@ -11,7 +11,7 @@ export interface NewFeatureCardProps {
 export const NewFeatureCard: React.FC<NewFeatureCardProps> = ({
   title,
   content,
-  btnLabel,
+  btnLabel = 'See',
   withButton = false,
   className,
 }) => {

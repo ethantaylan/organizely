@@ -1,4 +1,4 @@
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import { PlusIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import React from "react";
 
 export interface NewTodoInputProps {
@@ -34,7 +34,7 @@ export const NewTodoInput: React.FC<NewTodoInputProps> = ({
         <span
           onClick={onResetInput}
           className={`absolute  cursor-pointer ${
-            withAddMoreButton ? "right-40" : "right-10"
+            withAddMoreButton ? "right-28" : "right-10"
           }`}
         >
           <XMarkIcon className="w-5 text-slate-500" />
@@ -48,7 +48,7 @@ export const NewTodoInput: React.FC<NewTodoInputProps> = ({
             }}
             className="btn ms-4 btn-primary"
           >
-            ADD MORE
+            <PlusIcon className="w-5" />
           </button>
         )}
       </div>

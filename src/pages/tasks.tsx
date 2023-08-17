@@ -137,7 +137,7 @@ export const Tasks: React.FC = () => {
               <p className="text-slate-500">You don't have any todos</p>
             </div>
           ) : (
-            <p className="text-xl font-bold">My todos</p>
+            <p className="text-xl font-bold">📝 My todos</p>
           )}
           <p className="rounded">
             <button
