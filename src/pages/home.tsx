@@ -9,6 +9,7 @@ import {
 } from "../components/generic-components/card";
 import { Hero } from "./layout/hero";
 import { AppLayout } from "./layout/layout";
+import { Footer } from "./layout/layout/footer";
 
 export const Home: React.FC = () => {
   const features: NewFeatureCardProps[] = [
@@ -47,6 +48,9 @@ export const Home: React.FC = () => {
           <NewFeatureCard title={feature.title} content={feature.content} />
         ))}
       </div>
+      <hr className="mt-10 border-slate-800" />
+
+      <Footer />
     </AppLayout>
   );
 };

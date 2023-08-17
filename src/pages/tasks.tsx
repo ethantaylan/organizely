@@ -132,7 +132,7 @@ export const Tasks: React.FC = () => {
       <div className="mt-5">
         <div className="flex mt-10 items-center justify-between">
           {todos.length === 0 ? (
-            <div className="flex flex-col">
+            <div className="flex flex-col mb-16">
               <p className="text-xl font-bold">Your todos</p>
               <p className="text-slate-500">You don't have any todos</p>
             </div>
