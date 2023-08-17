@@ -2,16 +2,12 @@ import React from "react";
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="footer rounded-xl bg-black mt-10 p-10 text-neutral-content">
-      <div className="flex flex-col">
-        <p className="text-2xl font-bold">Made with 💜 by @ethantaylan</p>
-      </div>
+    <footer className="footer p-5 rounded-xl bg-black text-neutral-content">
 
-      <div>
-        <span className="footer-title mt-10">CONTACT</span>
+        <div className="text-md flex flex-col font-bold">
+        <span className="footer-title text-slate-500 text-base mt-5">CONTACT</span>
 
-        <div className="text-2xl flex flex-col font-bold">
-          <a target="_blank" href="https://www.instagram.com/et.tln/">
+          <a target="_blank" href="mailto: ethtaylan@gmail.com">
             Email
           </a>
           <a target="_blank" href="https://www.instagram.com/et.tln/">
@@ -23,8 +19,12 @@ export const Footer: React.FC = () => {
           >
             LinkedIn
           </a>
+          <a target="_blank" href="https://github.com/ethantaylan">
+            GitHub
+          </a>
         </div>
-      </div>
+        <p className="text-right mt-10 text-slate-500 italic">Made with 💜 by @ethantaylan</p>
+
     </footer>
   );
 };

@@ -30,7 +30,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = () => {
   ];
 
   return (
-    <div className="btm-nav btm-nav-md border-t border-t-slate-800 bg-black bg-opacity-60 backdrop-blur-md">
+    <div className="btm-nav btm-nav-md bg-black bg-opacity-60 backdrop-blur-sm">
       <div className="relative items-center flex-row flex w-full justify-around">
         {/* <span className="fixed bottom-14 right-0 bg-black rounded text-secondary " style={{ zIndex: 999 }}>
           <ChevronDownIcon className="w-6" />
