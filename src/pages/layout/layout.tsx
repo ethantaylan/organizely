@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react
+import React, { PropsWithChildren } from "react"
 import { Header } from "./layout/header";
 
 export const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
