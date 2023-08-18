@@ -8,10 +8,6 @@ export const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
       <div style={{ width: 700 }} className="h-auto relative p-5 flex-col">
         <Header />
         {children}
-
-        <div className="md:hidden">
-          <BottomNavigation />
-        </div>
       </div>
     </div>
   );
